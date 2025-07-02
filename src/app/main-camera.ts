@@ -7,7 +7,7 @@ export function mainCamera(): WorldCamera {
     aspect: browserWindow.width / browserWindow.height,
     near: 0.1,
     far: 100,
-    position: [0, 0, 8],
+    position: [0, 0, 64],
   });
 
   return {
