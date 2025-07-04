@@ -3,6 +3,7 @@ import engineOptions from "@/config/engine";
 import engine from "@/engine";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import * as THREE from "three";
 import { directionalLight } from "./directional-light";
 import { mainCamera } from "./main-camera";
 import { mainScene } from "./main-scene";
@@ -23,7 +24,7 @@ export async function app(canvas: HTMLCanvasElement) {
   aMainScene.add(directionalLight());
 
   const woPhone = phone();
-  const originalPhoneRotation = woPhone.threeObject.rotation.clone();
+  let prevPhoneRotation: THREE.Euler;
   aMainScene.add(woPhone);
 
   engine.run();
@@ -31,6 +32,8 @@ export async function app(canvas: HTMLCanvasElement) {
   const section0 = document.querySelector("#section-0");
   gsap.from(section0, { xPercent: -100, duration: 0.5, ease: "power1.out" });
 
+  const section1BeginPhoneRotation = { x: -3.5, y: 0.4, z: 0.2 };
+  const section1EndPhoneRotation = { x: -3.3, y: -0.6, z: -0.1 };
   const section1Text = document.querySelector("#section-1 .section__text");
   gsap.from(section1Text, {
     scrollTrigger: {
@@ -56,13 +59,70 @@ export async function app(canvas: HTMLCanvasElement) {
       },
       onUpdate: (self) => {
         woPhone.threeObject.rotation.set(
-          gsap.utils.interpolate(originalPhoneRotation.x, -3.3, self.progress),
-          gsap.utils.interpolate(originalPhoneRotation.y, -0.6, self.progress),
-          gsap.utils.interpolate(originalPhoneRotation.z, -0.1, self.progress),
+          gsap.utils.interpolate(
+            section1BeginPhoneRotation.x,
+            section1EndPhoneRotation.x,
+            self.progress,
+          ),
+          gsap.utils.interpolate(
+            section1BeginPhoneRotation.y,
+            section1EndPhoneRotation.y,
+            self.progress,
+          ),
+          gsap.utils.interpolate(
+            section1BeginPhoneRotation.z,
+            section1EndPhoneRotation.z,
+            self.progress,
+          ),
         );
-        // if (self.progress > 0.95) {
-        //   woPhone.toggleFloat(true);
-        // }
+      },
+    },
+    xPercent: -100,
+    ease: "power1.out",
+  });
+
+  const section2EndPhoneRotation = { x: -3.5, y: 0.4, z: 0.2 };
+  const section2Text = document.querySelector("#section-2 .section__text");
+  gsap.from(section2Text, {
+    scrollTrigger: {
+      trigger: section2Text,
+      end: "bottom 25%",
+      scrub: 2,
+      snap: {
+        snapTo: 1,
+        ease: "power3",
+      },
+      markers: true,
+      onEnter: (_self) => {
+        woPhone.toggleFloat(false);
+      },
+      onEnterBack: (_self) => {
+        woPhone.toggleFloat(false);
+      },
+      onLeave: (_self) => {
+        woPhone.toggleFloat(true);
+      },
+      onLeaveBack: (_self) => {
+        woPhone.toggleFloat(true);
+      },
+      onUpdate: (self) => {
+        woPhone.threeObject.rotation.set(
+          gsap.utils.interpolate(
+            section1EndPhoneRotation.x,
+            section2EndPhoneRotation.x,
+            self.progress,
+          ),
+          gsap.utils.interpolate(
+            section1EndPhoneRotation.y,
+            section2EndPhoneRotation.y,
+            self.progress,
+          ),
+          gsap.utils.interpolate(
+            section1EndPhoneRotation.z,
+            section2EndPhoneRotation.z,
+            self.progress,
+          ),
+        );
       },
     },
     xPercent: -100,
