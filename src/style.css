@@ -99,6 +99,9 @@ main {
   z-index: -100;
 }
 
+.section {
+  height: 100vh;
+}
 .section__header {
   font-size: 3.5rem;
   line-height: 1;

@@ -2,16 +2,16 @@ import type GUI from "lil-gui";
 import * as THREE from "three";
 import engine from "../engine";
 
-type WorldObjectOptions = {
+type WorldObjectOptions<T = {}> = {
   update?: (deltaTime: number) => void;
   gui?: (gui: GUI) => GUI;
   dispose?: () => void;
-};
+} & T;
 
-export default function worldObject(
+export default function worldObject<T = {}>(
   threeObject: THREE.Object3D,
-  options: WorldObjectOptions = {},
-): WorldObject {
+  options: WorldObjectOptions<T>,
+): WorldObject<T> {
   const gui = options.gui ? options.gui(engine.gui) : null;
 
   return {
@@ -27,5 +27,6 @@ export default function worldObject(
       }
       gui?.destroy();
     },
+    ...(options || {}),
   };
 }

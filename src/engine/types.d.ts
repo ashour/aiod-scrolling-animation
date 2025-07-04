@@ -52,17 +52,17 @@ type Vec3 = [number, number, number];
 
 type OnWindowResizeListener = (width: number, height: number) => void;
 
-type WorldObject = {
+type WorldObject<T> = {
   threeObject: import("three").Object3D;
   update?(deltaTime: number): void;
   dispose(): void;
-};
+} & T;
 
-type WorldScene = WorldObject & {
+type WorldScene<T> = WorldObject<T> & {
   threeScene: import("three").Scene;
-  add(object: WorldObject): void;
+  add(object: WorldObject<T>): void;
 };
 
-type WorldCamera = WorldObject & {
+type WorldCamera = WorldObject<{}> & {
   setAspect(newAspect: number): void;
 };
