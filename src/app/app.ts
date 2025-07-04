@@ -3,8 +3,8 @@ import engineOptions from "@/config/engine";
 import engine from "@/engine";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import * as THREE from "three";
 import { directionalLight } from "./directional-light";
+import fox from "./fox";
 import { mainCamera } from "./main-camera";
 import { mainScene } from "./main-scene";
 import { phone } from "./phone";
@@ -21,11 +21,13 @@ export async function app(canvas: HTMLCanvasElement) {
   aMainScene.add(aMainCamera);
   engine.setMainCamera(aMainCamera);
 
+  const woFox = fox();
+  aMainScene.add(woFox);
+
   aMainScene.add(directionalLight());
 
   const woPhone = phone();
-  let prevPhoneRotation: THREE.Euler;
-  aMainScene.add(woPhone);
+  // aMainScene.add(woPhone);
 
   engine.run();
 
@@ -37,6 +39,7 @@ export async function app(canvas: HTMLCanvasElement) {
   const section1Text = document.querySelector("#section-1 .section__text");
   gsap.from(section1Text, {
     scrollTrigger: {
+      id: "section-1",
       trigger: section1Text,
       end: "bottom 25%",
       scrub: 2,
@@ -46,6 +49,7 @@ export async function app(canvas: HTMLCanvasElement) {
       },
       markers: true,
       onEnter: (_self) => {
+        woFox.updateAnimationInLoop(false);
         woPhone.toggleFloat(false);
       },
       onEnterBack: (_self) => {
@@ -58,6 +62,8 @@ export async function app(canvas: HTMLCanvasElement) {
         woPhone.toggleFloat(true);
       },
       onUpdate: (self) => {
+        woFox.setAnimationTime(self.progress);
+
         woPhone.threeObject.rotation.set(
           gsap.utils.interpolate(
             section1BeginPhoneRotation.x,
@@ -85,6 +91,7 @@ export async function app(canvas: HTMLCanvasElement) {
   const section2Text = document.querySelector("#section-2 .section__text");
   gsap.from(section2Text, {
     scrollTrigger: {
+      id: "section-2",
       trigger: section2Text,
       end: "bottom 25%",
       scrub: 2,

@@ -2,6 +2,11 @@
 // If you don't have any assets just leave the `assets`
 // object empty.
 
-const assets: AssetConfig = {};
+const assets: AssetConfig = {
+  foxModel: {
+    type: "gltf",
+    path: "/models/Fox/glTF/Fox.gltf",
+  },
+};
 
 export default assets;
