@@ -3,10 +3,10 @@
 // object empty.
 
 const assets: AssetConfig = {
-  foxModel: {
-    type: "gltf",
-    path: "/models/Fox/glTF/Fox.gltf",
-  },
+  // foxModel: {
+  //   type: "gltf",
+  //   path: "/models/Fox/glTF/Fox.gltf",
+  // },
   phoneModel: {
     type: "gltf",
     path: "/models/phone/gltf-bin/phone.glb",
