@@ -22,12 +22,12 @@ export async function app(canvas: HTMLCanvasElement) {
   engine.setMainCamera(aMainCamera);
 
   const woFox = fox();
-  aMainScene.add(woFox);
+  // aMainScene.add(woFox);
 
   aMainScene.add(directionalLight());
 
   const woPhone = phone();
-  // aMainScene.add(woPhone);
+  aMainScene.add(woPhone);
 
   engine.run();
 

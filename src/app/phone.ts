@@ -1,6 +1,7 @@
+import engine from "@/engine";
 import time from "@/engine/system/time";
 import worldObject from "@/engine/world/worldObject";
-import * as THREE from "three";
+import type { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
 
 type PhoneProps = {
   isFloating: () => boolean;
@@ -10,13 +11,12 @@ type PhoneProps = {
 export function phone(): WorldObject<PhoneProps> {
   let _isFloatingEnabled: boolean = true;
 
-  const _phone = new THREE.Mesh(
-    new THREE.BoxGeometry(7.57, 15.09, 0.83),
-    new THREE.MeshStandardMaterial({ color: "#aaaaaa" }),
-  );
+  const gltf = engine.resource<GLTF>("phoneModel");
+  const _phone = gltf.scene;
 
+  _phone.scale.set(80, 80, 80);
   _phone.position.set(1, -3, 4.3);
-  _phone.rotation.set(-3.5, 0.4, 0.2);
+  _phone.rotation.set(0.2, 1.1, 0.9);
 
   let _baseY = _phone.position.y;
   let _baseRotationX = _phone.rotation.x;
@@ -38,9 +38,9 @@ export function phone(): WorldObject<PhoneProps> {
       folder.add(_phone.position, "x").min(-10).max(10).step(0.1).name("posX");
       folder.add(_phone.position, "y").min(-10).max(10).step(0.1).name("posY");
       folder.add(_phone.position, "z").min(-10).max(10).step(0.1).name("posZ");
-      folder.add(_phone.rotation, "x").min(-10).max(10).step(0.1);
-      folder.add(_phone.rotation, "y").min(-10).max(10).step(0.1);
-      folder.add(_phone.rotation, "z").min(-10).max(10).step(0.1);
+      folder.add(_phone.rotation, "x").min(-10).max(10).step(0.1).name("rotX");
+      folder.add(_phone.rotation, "y").min(-10).max(10).step(0.1).name("rotY");
+      folder.add(_phone.rotation, "z").min(-10).max(10).step(0.1).name("rotZ");
       return folder;
     },
 

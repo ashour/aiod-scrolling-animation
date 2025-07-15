@@ -7,6 +7,10 @@ const assets: AssetConfig = {
     type: "gltf",
     path: "/models/Fox/glTF/Fox.gltf",
   },
+  phoneModel: {
+    type: "gltf",
+    path: "/models/phone/gltf-bin/phone.glb",
+  },
 };
 
 export default assets;

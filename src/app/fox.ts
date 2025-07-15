@@ -1,8 +1,8 @@
+import engine from "@/engine/engine";
+import worldObject from "@/engine/world/worldObject";
 import GUI from "lil-gui";
 import * as THREE from "three";
 import type { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
-import engine from "../engine/engine";
-import worldObject from "../engine/world/worldObject";
 
 type FoxProps = {
   updateAnimationInLoop: (update: boolean) => void;
