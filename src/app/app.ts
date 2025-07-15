@@ -4,7 +4,6 @@ import engine from "@/engine";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { directionalLight } from "./directional-light";
-import fox from "./fox";
 import { mainCamera } from "./main-camera";
 import { mainScene } from "./main-scene";
 import { phone } from "./phone";
@@ -20,9 +19,6 @@ export async function app(canvas: HTMLCanvasElement) {
   const aMainCamera = mainCamera();
   aMainScene.add(aMainCamera);
   engine.setMainCamera(aMainCamera);
-
-  const woFox = fox();
-  // aMainScene.add(woFox);
 
   aMainScene.add(directionalLight());
 
@@ -49,90 +45,93 @@ export async function app(canvas: HTMLCanvasElement) {
       },
       markers: true,
       onEnter: (_self) => {
-        woFox.updateAnimationInLoop(false);
+        woPhone.updateAnimationInLoop(false);
         woPhone.toggleFloat(false);
       },
       onEnterBack: (_self) => {
+        woPhone.updateAnimationInLoop(false);
         woPhone.toggleFloat(false);
       },
       onLeave: (_self) => {
+        woPhone.updateAnimationInLoop(false);
         woPhone.toggleFloat(true);
       },
       onLeaveBack: (_self) => {
+        woPhone.updateAnimationInLoop(false);
         woPhone.toggleFloat(true);
       },
       onUpdate: (self) => {
-        woFox.setAnimationTime(self.progress);
+        woPhone.setAnimationTime(self.progress);
 
-        woPhone.threeObject.rotation.set(
-          gsap.utils.interpolate(
-            section1BeginPhoneRotation.x,
-            section1EndPhoneRotation.x,
-            self.progress,
-          ),
-          gsap.utils.interpolate(
-            section1BeginPhoneRotation.y,
-            section1EndPhoneRotation.y,
-            self.progress,
-          ),
-          gsap.utils.interpolate(
-            section1BeginPhoneRotation.z,
-            section1EndPhoneRotation.z,
-            self.progress,
-          ),
-        );
+        // woPhone.threeObject.rotation.set(
+        //   gsap.utils.interpolate(
+        //     section1BeginPhoneRotation.x,
+        //     section1EndPhoneRotation.x,
+        //     self.progress,
+        //   ),
+        //   gsap.utils.interpolate(
+        //     section1BeginPhoneRotation.y,
+        //     section1EndPhoneRotation.y,
+        //     self.progress,
+        //   ),
+        //   gsap.utils.interpolate(
+        //     section1BeginPhoneRotation.z,
+        //     section1EndPhoneRotation.z,
+        //     self.progress,
+        //   ),
+        // );
       },
     },
     xPercent: -100,
     ease: "power1.out",
   });
 
-  const section2EndPhoneRotation = { x: -3.5, y: 0.4, z: 0.2 };
-  const section2Text = document.querySelector("#section-2 .section__text");
-  gsap.from(section2Text, {
-    scrollTrigger: {
-      id: "section-2",
-      trigger: section2Text,
-      end: "bottom 25%",
-      scrub: 2,
-      snap: {
-        snapTo: 1,
-        ease: "power3",
-      },
-      markers: true,
-      onEnter: (_self) => {
-        woPhone.toggleFloat(false);
-      },
-      onEnterBack: (_self) => {
-        woPhone.toggleFloat(false);
-      },
-      onLeave: (_self) => {
-        woPhone.toggleFloat(true);
-      },
-      onLeaveBack: (_self) => {
-        woPhone.toggleFloat(true);
-      },
-      onUpdate: (self) => {
-        woPhone.threeObject.rotation.set(
-          gsap.utils.interpolate(
-            section1EndPhoneRotation.x,
-            section2EndPhoneRotation.x,
-            self.progress,
-          ),
-          gsap.utils.interpolate(
-            section1EndPhoneRotation.y,
-            section2EndPhoneRotation.y,
-            self.progress,
-          ),
-          gsap.utils.interpolate(
-            section1EndPhoneRotation.z,
-            section2EndPhoneRotation.z,
-            self.progress,
-          ),
-        );
-      },
-    },
-    xPercent: -100,
-    ease: "power1.out",
-  });
+  // const section2EndPhoneRotation = { x: -3.5, y: 0.4, z: 0.2 };
+  // const section2Text = document.querySelector("#section-2 .section__text");
+  // gsap.from(section2Text, {
+  //   scrollTrigger: {
+  //     id: "section-2",
+  //     trigger: section2Text,
+  //     end: "bottom 25%",
+  //     scrub: 2,
+  //     snap: {
+  //       snapTo: 1,
+  //       ease: "power3",
+  //     },
+  //     markers: true,
+  //     onEnter: (_self) => {
+  //       woPhone.toggleFloat(false);
+  //     },
+  //     onEnterBack: (_self) => {
+  //       woPhone.toggleFloat(false);
+  //     },
+  //     onLeave: (_self) => {
+  //       woPhone.toggleFloat(true);
+  //     },
+  //     onLeaveBack: (_self) => {
+  //       woPhone.toggleFloat(true);
+  //     },
+  //     onUpdate: (self) => {
+  //       woPhone.threeObject.rotation.set(
+  //         gsap.utils.interpolate(
+  //           section1EndPhoneRotation.x,
+  //           section2EndPhoneRotation.x,
+  //           self.progress,
+  //         ),
+  //         gsap.utils.interpolate(
+  //           section1EndPhoneRotation.y,
+  //           section2EndPhoneRotation.y,
+  //           self.progress,
+  //         ),
+  //         gsap.utils.interpolate(
+  //           section1EndPhoneRotation.z,
+  //           section2EndPhoneRotation.z,
+  //           self.progress,
+  //         ),
+  //       );
+  //     },
+  //   },
+  //   xPercent: -100,
+  //   ease: "power1.out",
+  // });
 }

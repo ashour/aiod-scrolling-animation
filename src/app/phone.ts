@@ -7,10 +7,13 @@ import type { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
 type PhoneProps = {
   isFloating: () => boolean;
   toggleFloat: (enable: boolean) => void;
+  updateAnimationInLoop: (update: boolean) => void;
+  setAnimationTime: (normalizedTime: number) => void;
 };
 
 export function phone(): WorldObject<PhoneProps> {
   let _isFloatingEnabled: boolean = true;
+  let _updatesAnimationsInLoop: boolean = false;
 
   const _gltf = engine.resource<GLTF>("phoneModel");
   const _phone = _gltf.scene;
@@ -25,9 +28,24 @@ export function phone(): WorldObject<PhoneProps> {
   let _baseRotationX = _phone.rotation.x;
   let _baseRotationZ = _phone.rotation.z;
 
+  const _debug = {
+    playAnimations() {
+      _gltf.animations.forEach((clip) => {
+        const action = _mixer.clipAction(clip);
+        action.reset();
+        action.setLoop(THREE.LoopOnce, 1);
+        action.clampWhenFinished = true;
+        action.play();
+      });
+    },
+  };
+
   return worldObject(_phone, {
     update(deltaTime: number) {
-      _mixer.update(deltaTime);
+      if (_updatesAnimationsInLoop) {
+        console.log("updating in loop");
+        _mixer.update(deltaTime);
+      }
 
       if (!_isFloatingEnabled) {
         return;
@@ -46,7 +64,7 @@ export function phone(): WorldObject<PhoneProps> {
       folder.add(_phone.rotation, "x").min(-10).max(10).step(0.1).name("rotX");
       folder.add(_phone.rotation, "y").min(-10).max(10).step(0.1).name("rotY");
       folder.add(_phone.rotation, "z").min(-10).max(10).step(0.1).name("rotZ");
-      folder.add(this, "playAnimations");
+      folder.add(_debug, "playAnimations");
       return folder;
     },
 
@@ -63,14 +81,18 @@ export function phone(): WorldObject<PhoneProps> {
       }
     },
 
-    playAnimations() {
+    updateAnimationInLoop(update: boolean) {
+      _updatesAnimationsInLoop = update;
+    },
+
+    setAnimationTime(normalizedTime: number) {
+      const duration = _gltf.animations[0].duration;
       _gltf.animations.forEach((clip) => {
         const action = _mixer.clipAction(clip);
-        action.reset();
-        action.setLoop(THREE.LoopOnce, 1);
-        action.clampWhenFinished = true;
         action.play();
+        action.time = normalizedTime * duration;
       });
+      _mixer.update(0);
     },
   });
 }
