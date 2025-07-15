@@ -1,3 +1,4 @@
+import type GUI from "lil-gui";
 import * as THREE from "three";
 import worldObject from "../engine/world/worldObject";
 
@@ -6,7 +7,7 @@ export function directionalLight(): WorldObject {
   light.position.set(0, 0, 5);
 
   return worldObject(light, {
-    gui(gui) {
+    gui(gui: GUI) {
       const folder = gui.addFolder("Light");
       folder.add(light, "intensity").min(0).max(10).step(0.001).name("lightIntensity");
       folder.add(light.position, "x").min(-5).max(5).step(0.001).name("lightX");

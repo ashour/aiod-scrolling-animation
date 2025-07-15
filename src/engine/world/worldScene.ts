@@ -28,7 +28,7 @@ export default function worldScene(options: WorldSceneOptions = {}): WorldScene 
       threeScene.add(object.threeObject);
     },
 
-    update(deltaTime) {
+    update(deltaTime: number) {
       for (const object of objects) {
         if (object.update) {
           object.update(deltaTime);
