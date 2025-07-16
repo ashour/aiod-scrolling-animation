@@ -3,7 +3,7 @@ import * as THREE from "three";
 import stats from "./debug/stats";
 import loader from "./loaders/loader";
 import renderer from "./rendering/renderer";
-import browserWindow from "./system/browser_window";
+import { browserWindow } from "./system/browser_window";
 import time from "./system/time";
 
 const DEBUG_URL_HASH = "#debug";
@@ -16,6 +16,7 @@ let _stats: ReturnType<typeof stats>;
 let _renderer: ReturnType<typeof renderer>;
 let _resources: { [key: string]: Resource } = {};
 let _onEarlyUpdateListeners: Array<(deltaTime: number) => void> = [];
+let _onLateUpdateListeners: Array<(deltaTime: number) => void> = [];
 
 export default {
   time,
@@ -88,7 +89,7 @@ export default {
   },
 
   render(scene: WorldScene, camera: WorldCamera) {
-    // todo _renderer.render(scene, camera);
+    // todo refactor to _renderer.render(scene, camera);
     _renderer.threeRenderer.render(scene.threeObject, camera.threeObject as THREE.Camera);
   },
 
@@ -109,6 +110,10 @@ export default {
         _mainScene.update(time.deltaTime);
       }
 
+      for (const listener of _onLateUpdateListeners) {
+        listener(time.deltaTime);
+      }
+
       if (_mainScene && _mainCamera) {
         self.render(_mainScene, _mainCamera);
       } else {
@@ -123,6 +128,10 @@ export default {
 
   onEarlyUpdate(callback: (deltaTime: number) => void) {
     _onEarlyUpdateListeners.push(callback);
+  },
+
+  onLateUpdate(callback: (deltaTime: number) => void) {
+    _onLateUpdateListeners.push(callback);
   },
 
   setMainScene(scene: WorldScene | null) {

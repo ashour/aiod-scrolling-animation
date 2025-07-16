@@ -30,6 +30,7 @@ export function phone(): WorldObject<PhoneProps> {
 
   const _debug = {
     playAnimations() {
+      _updatesAnimationsInLoop = true;
       _gltf.animations.forEach((clip) => {
         const action = _mixer.clipAction(clip);
         action.reset();
@@ -43,7 +44,6 @@ export function phone(): WorldObject<PhoneProps> {
   return worldObject(_phone, {
     update(deltaTime: number) {
       if (_updatesAnimationsInLoop) {
-        console.log("updating in loop");
         _mixer.update(deltaTime);
       }
 

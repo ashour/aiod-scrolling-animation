@@ -1,5 +1,5 @@
 import { perspectiveCamera } from "@/engine/rendering/camera";
-import browserWindow from "@/engine/system/browser_window";
+import { browserWindow } from "@/engine/system/browser_window";
 
 export function mainCamera(): WorldCamera {
   const mainCamera = perspectiveCamera({

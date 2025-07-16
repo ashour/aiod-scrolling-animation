@@ -24,7 +24,7 @@ _nativeWindow.addEventListener("hashchange", () => {
   }
 });
 
-export default {
+export const browserWindow = {
   width: _size.width,
   height: _size.height,
 
