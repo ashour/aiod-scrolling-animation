@@ -46,8 +46,7 @@ export async function app(canvas: HTMLCanvasElement) {
 
     const halfLabelWidth = testLabel.offsetWidth / 2;
 
-    testLabel.style.left = `${screenPositionX - halfLabelWidth}px`;
-    testLabel.style.top = `${screenPositionY - 165}px`;
+    testLabel.style.translate = `${screenPositionX - halfLabelWidth}px ${screenPositionY - 190}px`;
   });
 
   const section0 = document.querySelector("#section-0");
