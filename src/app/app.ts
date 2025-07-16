@@ -32,21 +32,35 @@ export async function app(canvas: HTMLCanvasElement) {
 
   engine.run();
 
-  let phonePosition = new THREE.Vector3();
+  let phoneWorldPos = new THREE.Vector3();
   const testLabel = document.getElementById("test")!;
+  const piece1 = woPhone.threeObject.getObjectByName("Piece1")!;
+  const piece2 = woPhone.threeObject.getObjectByName("Piece2")!;
+  let piece1WorldPos = new THREE.Vector3();
+  let piece2WorldPos = new THREE.Vector3();
+  const label0 = document.getElementById("label-1-0")!;
+  const label1 = document.getElementById("label-1-1")!;
   engine.onLateUpdate((_deltaTime) => {
-    woPhone.threeObject.getWorldPosition(phonePosition);
-    phonePosition.project(aMainCamera.threeObject as THREE.Camera);
+    woPhone.threeObject.getWorldPosition(phoneWorldPos);
+    phoneWorldPos.project(aMainCamera.threeObject as THREE.Camera);
 
     const halfWindowWidth = browserWindow.width / 2;
     const halfWindowHeight = browserWindow.height / 2;
 
-    const screenPositionX = phonePosition.x * halfWindowWidth + halfWindowWidth;
-    const screenPositionY = -phonePosition.y * halfWindowHeight + halfWindowHeight;
+    const phoneScreenPosX = phoneWorldPos.x * halfWindowWidth + halfWindowWidth;
+    const phoneScreenPosY = -phoneWorldPos.y * halfWindowHeight + halfWindowHeight + window.scrollY;
 
-    const halfLabelWidth = testLabel.offsetWidth / 2;
+    const halfTestLabelWidth = testLabel.offsetWidth / 2;
 
-    testLabel.style.translate = `${screenPositionX - halfLabelWidth}px ${screenPositionY - 190}px`;
+    testLabel.style.translate = `${phoneScreenPosX - halfTestLabelWidth}px ${phoneScreenPosY - 190}px`;
+
+    const halfLabel0Width = label0.offsetWidth / 2;
+    piece1.getWorldPosition(piece1WorldPos);
+    piece1WorldPos.project(aMainCamera.threeObject as THREE.Camera);
+    const piece1ScreenPosX = piece1WorldPos.x * halfWindowWidth + halfWindowWidth;
+    const piece1ScreenPosY =
+      -piece1WorldPos.y * halfWindowHeight + halfWindowHeight + window.scrollY;
+    label0.style.translate = `${piece1ScreenPosX - halfLabel0Width}px ${piece1ScreenPosY + 40}px`;
   });
 
   const section0 = document.querySelector("#section-0");
@@ -55,12 +69,12 @@ export async function app(canvas: HTMLCanvasElement) {
   const section1BeginPhoneRotation = { x: -3.5, y: 0.4, z: 0.2 };
   const section1EndPhoneRotation = { x: -3.3, y: -0.6, z: -0.1 };
   const section1Text = document.querySelector("#section-1 .section__text");
-  gsap.from(section1Text, {
+  let timeline = gsap.timeline({
     scrollTrigger: {
       id: "section-1",
       trigger: section1Text,
       end: "bottom 25%",
-      scrub: 2,
+      scrub: 1,
       snap: {
         snapTo: 1,
         ease: "power3",
@@ -104,9 +118,13 @@ export async function app(canvas: HTMLCanvasElement) {
         // );
       },
     },
+  });
+  timeline.from(section1Text, {
     xPercent: -100,
     ease: "power1.out",
   });
+
+  timeline.to(label0, { scale: 1 });
 
   // const section2EndPhoneRotation = { x: -3.5, y: 0.4, z: 0.2 };
   // const section2Text = document.querySelector("#section-2 .section__text");
