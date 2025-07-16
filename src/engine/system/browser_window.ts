@@ -25,8 +25,12 @@ _nativeWindow.addEventListener("hashchange", () => {
 });
 
 export const browserWindow = {
-  width: _size.width,
-  height: _size.height,
+  get width() {
+    return _size.width;
+  },
+  get height() {
+    return _size.height;
+  },
 
   statsContainer: document.body,
   requestAnimationFrame: _nativeWindow.requestAnimationFrame.bind(_nativeWindow),
