@@ -67,6 +67,19 @@ h6 {
   isolation: isolate;
 }
 
+* {
+  --label0-translateX: 0px;
+  --label0-translateY: 0px;
+  --label0-scale: 0;
+}
+
+#label-1-0 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(var(--label0-translateX), var(--label0-translateY)) scale(var(--label0-scale));
+}
+
 html {
   color: #d3dadd;
   background-color: #211d20;

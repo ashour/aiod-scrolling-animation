@@ -60,7 +60,8 @@ export async function app(canvas: HTMLCanvasElement) {
     const piece1ScreenPosX = piece1WorldPos.x * halfWindowWidth + halfWindowWidth;
     const piece1ScreenPosY =
       -piece1WorldPos.y * halfWindowHeight + halfWindowHeight + window.scrollY;
-    label0.style.translate = `${piece1ScreenPosX - halfLabel0Width}px ${piece1ScreenPosY + 40}px`;
+    label0.style.setProperty("--label0-translateX", `${piece1ScreenPosX - halfLabel0Width}px`);
+    label0.style.setProperty("--label0-translateY", `${piece1ScreenPosY + 40}px`);
   });
 
   const section0 = document.querySelector("#section-0");
@@ -124,7 +125,7 @@ export async function app(canvas: HTMLCanvasElement) {
     ease: "power1.out",
   });
 
-  timeline.to(label0, { scale: 1 });
+  timeline.to(label0, { "--label0-scale": 1 });
 
   // const section2EndPhoneRotation = { x: -3.5, y: 0.4, z: 0.2 };
   // const section2Text = document.querySelector("#section-2 .section__text");
