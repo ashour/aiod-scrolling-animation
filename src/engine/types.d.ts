@@ -52,6 +52,12 @@ type Vec3 = [number, number, number];
 
 type OnWindowResizeListener = (width: number, height: number) => void;
 
+type WorldObjectOptions<T = {}> = {
+  update?: (deltaTime: number) => void;
+  gui?(gui: import("lil-gui").GUI): import("lil-gui").GUI;
+  dispose?: () => void;
+} & T;
+
 type WorldObject<T = {}> = {
   threeObject: import("three").Object3D;
   update?(deltaTime: number): void;
@@ -65,4 +71,5 @@ type WorldScene<T = {}> = WorldObject<T> & {
 
 type WorldCamera = WorldObject<{}> & {
   setAspect(newAspect: number): void;
+  gui?(gui: import("lil-gui").GUI): import("lil-gui").GUI;
 };

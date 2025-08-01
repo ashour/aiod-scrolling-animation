@@ -34,7 +34,7 @@ export async function app(canvas: HTMLCanvasElement) {
 
   let phoneWorldPos = new THREE.Vector3();
   const testLabel = document.getElementById("test")!;
-  const piece1 = woPhone.threeObject.getObjectByName("Piece1")!;
+  const piece1 = woPhone.threeObject.getObjectByName("Phone_Screen")!;
   const piece2 = woPhone.threeObject.getObjectByName("Piece2")!;
   let piece1WorldPos = new THREE.Vector3();
   let piece2WorldPos = new THREE.Vector3();

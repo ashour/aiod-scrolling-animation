@@ -1,12 +1,5 @@
-import type GUI from "lil-gui";
 import * as THREE from "three";
 import engine from "../engine";
-
-type WorldObjectOptions<T = {}> = {
-  update?: (deltaTime: number) => void;
-  gui?: (gui: GUI) => GUI;
-  dispose?: () => void;
-} & T;
 
 export default function worldObject<T = {}>(
   threeObject: THREE.Object3D,

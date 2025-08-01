@@ -12,15 +12,16 @@ type PhoneProps = {
 };
 
 export function phone(): WorldObject<PhoneProps> {
-  let _isFloatingEnabled: boolean = true;
+  let _isFloatingEnabled: boolean = false;
   let _updatesAnimationsInLoop: boolean = false;
 
   const _gltf = engine.resource<GLTF>("phoneModel");
   const _phone = _gltf.scene;
 
-  _phone.scale.set(80, 80, 80);
+  console.log(_gltf);
+
   _phone.position.set(1, -3, 4.3);
-  _phone.rotation.set(0.2, 1.1, 0.9);
+  _phone.rotation.set(-0.1, -3.3, 0.2);
 
   const _mixer = new THREE.AnimationMixer(_phone);
 

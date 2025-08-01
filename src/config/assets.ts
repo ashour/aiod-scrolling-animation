@@ -9,7 +9,7 @@ const assets: AssetConfig = {
   // },
   phoneModel: {
     type: "gltf",
-    path: "/models/phone/gltf-bin/phone.glb",
+    path: "/models/phone/gltf-bin/phone1.glb",
   },
 };
 
