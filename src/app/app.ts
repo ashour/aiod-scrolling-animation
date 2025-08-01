@@ -32,6 +32,48 @@ export async function app(canvas: HTMLCanvasElement) {
 
   engine.run();
 
+  let floatingTween: gsap.core.Tween | null = null;
+  let rotationTween: gsap.core.Tween | null = null;
+
+  function startFloating() {
+    if (floatingTween) {
+      floatingTween.kill();
+    }
+    if (rotationTween) {
+      rotationTween.kill();
+    }
+
+    floatingTween = gsap.to(woPhone.threeObject.position, {
+      y: "+=0.5",
+      duration: 2,
+      ease: "sine.inOut",
+      yoyo: true,
+      repeat: -1,
+    });
+
+    rotationTween = gsap.to(woPhone.threeObject.rotation, {
+      x: "+=0.0625",
+      z: "+=0.03125",
+      duration: 3,
+      ease: "sine.inOut",
+      yoyo: true,
+      repeat: -1,
+    });
+  }
+
+  function stopFloating() {
+    if (floatingTween) {
+      floatingTween.kill();
+      floatingTween = null;
+    }
+    if (rotationTween) {
+      rotationTween.kill();
+      rotationTween = null;
+    }
+  }
+
+  startFloating();
+
   let phoneWorldPos = new THREE.Vector3();
   const testLabel = document.getElementById("test")!;
   const piece1 = woPhone.threeObject.getObjectByName("Phone_Screen")!;
@@ -82,20 +124,20 @@ export async function app(canvas: HTMLCanvasElement) {
       },
       markers: true,
       onEnter: (_self) => {
+        stopFloating();
         woPhone.updateAnimationInLoop(false);
-        woPhone.toggleFloat(false);
       },
       onEnterBack: (_self) => {
+        stopFloating();
         woPhone.updateAnimationInLoop(false);
-        woPhone.toggleFloat(false);
       },
       onLeave: (_self) => {
+        startFloating();
         woPhone.updateAnimationInLoop(false);
-        woPhone.toggleFloat(true);
       },
       onLeaveBack: (_self) => {
+        startFloating();
         woPhone.updateAnimationInLoop(false);
-        woPhone.toggleFloat(true);
       },
       onUpdate: (self) => {
         woPhone.setAnimationTime(self.progress);

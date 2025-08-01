@@ -22,6 +22,5 @@ export function mainCamera(): WorldCamera {
       folder.add(mainCamera.threeObject.position, "z").min(-1000).max(1000).step(0.1).name("posZ");
       return folder;
     },
-    dispose() {},
   });
 }
