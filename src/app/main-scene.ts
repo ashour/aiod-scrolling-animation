@@ -1,4 +1,4 @@
-import worldScene from "@/engine/world/worldScene";
+import worldScene from "@/engine/world/world-scene";
 
 export function mainScene(): WorldScene {
   return worldScene();

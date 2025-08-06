@@ -1,6 +1,6 @@
 import type GUI from "lil-gui";
 import * as THREE from "three";
-import worldObject from "../engine/world/worldObject";
+import worldObject from "../engine/world/world-object";
 
 export function directionalLight(): WorldObject {
   const light = new THREE.DirectionalLight("#ffffff", 4);

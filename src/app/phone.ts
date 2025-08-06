@@ -1,11 +1,16 @@
 import engine from "@/engine";
-import worldObject from "@/engine/world/worldObject";
+import worldObject from "@/engine/world/world-object";
 import * as THREE from "three";
 import type { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
 
 type PhoneProps = {
   updateAnimationInLoop: (update: boolean) => void;
-  setAnimationTime: (normalizedTime: number) => void;
+  setAnimationTime: (clipIndex: number, normalizedTime: number) => void;
+};
+
+const _frameRanges = {
+  0: { start: 0, end: 12 },
+  1: { start: 12, end: 15 },
 };
 
 export function phone(): WorldObject<PhoneProps> {
@@ -17,13 +22,9 @@ export function phone(): WorldObject<PhoneProps> {
   console.log(_gltf);
 
   _phone.position.set(1, -3, 4.3);
-  _phone.rotation.set(-0.1, -3.3, 0.2);
+  _phone.rotation.set(-0.1, -0.3, -0.1);
 
   const _mixer = new THREE.AnimationMixer(_phone);
-
-  let _baseY = _phone.position.y;
-  let _baseRotationX = _phone.rotation.x;
-  let _baseRotationZ = _phone.rotation.z;
 
   const _debug = {
     playAnimations() {
@@ -61,13 +62,23 @@ export function phone(): WorldObject<PhoneProps> {
       _updatesAnimationsInLoop = update;
     },
 
-    setAnimationTime(normalizedTime: number) {
-      const duration = _gltf.animations[0].duration;
-      _gltf.animations.forEach((clip) => {
-        const action = _mixer.clipAction(clip);
-        action.play();
-        action.time = normalizedTime * duration;
-      });
+    setAnimationTime(rangeIndex: number, normalizedTime: number) {
+      const range = _frameRanges[rangeIndex as keyof typeof _frameRanges];
+      if (!range) {
+        return;
+      }
+
+      const clip = _gltf.animations[0];
+      const totalDuration = clip.duration;
+      const frameDuration = totalDuration / 15;
+
+      const startTime = range.start * frameDuration;
+      const endTime = range.end * frameDuration;
+      const animationTime = startTime + normalizedTime * (endTime - startTime);
+
+      const action = _mixer.clipAction(clip);
+      action.play();
+      action.time = animationTime;
       _mixer.update(0);
     },
   });

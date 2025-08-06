@@ -1,5 +1,5 @@
 import engine from "@/engine/engine";
-import worldObject from "@/engine/world/worldObject";
+import worldObject from "@/engine/world/world-object";
 import GUI from "lil-gui";
 import * as THREE from "three";
 import type { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
