@@ -3,7 +3,7 @@ import * as THREE from "three";
 import worldObject from "../engine/world/world-object";
 
 export function directionalLight(): WorldObject {
-  const light = new THREE.DirectionalLight("#ffffff", 4);
+  const light = new THREE.DirectionalLight("#f0f9fa", 3);
   light.position.set(0, 0, 5);
 
   return worldObject(light, {
