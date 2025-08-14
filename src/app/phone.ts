@@ -2,6 +2,7 @@ import engine from "@/engine";
 import worldObject from "@/engine/world/world-object";
 import * as THREE from "three";
 import type { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
+import { backgroundHalo } from "./background-halo";
 
 type PhoneProps = {
   updateAnimationInLoop: (update: boolean) => void;
@@ -23,6 +24,10 @@ export function phone(): WorldObject<PhoneProps> {
 
   _phone.position.set(1, -3, 4.3);
   _phone.rotation.set(-0.1, -0.3, -0.1);
+
+  const _halo = backgroundHalo();
+  _phone.add(_halo.threeObject);
+  _halo.threeObject.position.set(0, 0, -1);
 
   const _mixer = new THREE.AnimationMixer(_phone);
 

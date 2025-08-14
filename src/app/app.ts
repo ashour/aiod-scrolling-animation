@@ -8,7 +8,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import GUI from "lil-gui";
 import * as THREE from "three";
 import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader";
-import { directionalLight } from "./directional-light";
+import { keyLight } from "./key-light";
 import { mainCamera } from "./main-camera";
 import { mainScene } from "./main-scene";
 import { phone } from "./phone";
@@ -42,27 +42,27 @@ export async function app(canvas: HTMLCanvasElement) {
       (aMainScene.threeObject as THREE.Scene).environment = envMap;
       (aMainScene.threeObject as THREE.Scene).environmentIntensity = 0.2;
       // (aMainScene.threeObject as THREE.Scene).environmentRotation = new THREE.Euler(-0.08, 4.42, 0);
-      const envFolder = gui.addFolder("Environment");
-      envFolder
-        .add(debug, "envIntensity", 0, 3, 0.1)
-        .onChange(
-          (val: number) => ((aMainScene.threeObject as THREE.Scene).environmentIntensity = val),
-        );
-      envFolder
-        .add(debug, "envRotX", -Math.PI * 2, Math.PI * 2, 0.1)
-        .onChange(
-          (val: number) => ((aMainScene.threeObject as THREE.Scene).environmentRotation.x = val),
-        );
-      envFolder
-        .add(debug, "envRotY", -Math.PI * 2, Math.PI * 2, 0.1)
-        .onChange(
-          (val: number) => ((aMainScene.threeObject as THREE.Scene).environmentRotation.y = val),
-        );
-      envFolder
-        .add(debug, "envRotZ", -Math.PI * 2, Math.PI * 2, 0.1)
-        .onChange(
-          (val: number) => ((aMainScene.threeObject as THREE.Scene).environmentRotation.z = val),
-        );
+      // const envFolder = gui.addFolder("Environment");
+      // envFolder
+      //   .add(debug, "envIntensity", 0, 3, 0.1)
+      //   .onChange(
+      //     (val: number) => ((aMainScene.threeObject as THREE.Scene).environmentIntensity = val),
+      //   );
+      // envFolder
+      //   .add(debug, "envRotX", -Math.PI * 2, Math.PI * 2, 0.1)
+      //   .onChange(
+      //     (val: number) => ((aMainScene.threeObject as THREE.Scene).environmentRotation.x = val),
+      //   );
+      // envFolder
+      //   .add(debug, "envRotY", -Math.PI * 2, Math.PI * 2, 0.1)
+      //   .onChange(
+      //     (val: number) => ((aMainScene.threeObject as THREE.Scene).environmentRotation.y = val),
+      //   );
+      // envFolder
+      //   .add(debug, "envRotZ", -Math.PI * 2, Math.PI * 2, 0.1)
+      //   .onChange(
+      //     (val: number) => ((aMainScene.threeObject as THREE.Scene).environmentRotation.z = val),
+      //   );
 
       // (aMainScene.threeObject as THREE.Scene).background = envMap;
     });
@@ -73,7 +73,7 @@ export async function app(canvas: HTMLCanvasElement) {
 
   aMainScene.add(axesWidget(8));
 
-  aMainScene.add(directionalLight());
+  aMainScene.add(keyLight());
 
   const woPhone = phone();
   aMainScene.add(woPhone);

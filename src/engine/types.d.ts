@@ -73,3 +73,18 @@ type WorldCamera = WorldObject<{}> & {
   setAspect(newAspect: number): void;
   gui?(gui: import("lil-gui").GUI): import("lil-gui").GUI;
 };
+
+declare module "*.vert?raw" {
+  const content: string;
+  export default content;
+}
+
+declare module "*.frag?raw" {
+  const content: string;
+  export default content;
+}
+
+declare module "*.glsl?raw" {
+  const content: string;
+  export default content;
+}

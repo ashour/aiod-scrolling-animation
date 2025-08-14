@@ -80,15 +80,15 @@ h6 {
   transform: translate(var(--label0-translateX), var(--label0-translateY)) scale(var(--label0-scale));
 }
 
-html {
-  color: #d3dadd;
-  background-color: #211d20;
-}
 
 body
 {
   height: 400vh;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  color: #7BBFFF;
+  background: #222A2A;
+  background: linear-gradient(to bottom, rgba(15, 17, 18, 1) 0vh, rgba(34, 42, 42, 1) 100vh);
+  background-attachment: fixed;
 }
 
 main {
