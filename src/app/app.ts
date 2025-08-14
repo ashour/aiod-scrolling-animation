@@ -5,7 +5,9 @@ import { axesWidget } from "@/engine/debug/axes-widget";
 import { browserWindow } from "@/engine/system/browser_window";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import GUI from "lil-gui";
 import * as THREE from "three";
+import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader";
 import { directionalLight } from "./directional-light";
 import { mainCamera } from "./main-camera";
 import { mainScene } from "./main-scene";
@@ -13,11 +15,59 @@ import { phone } from "./phone";
 
 gsap.registerPlugin(ScrollTrigger);
 
+const debug = {
+  envIntensity: 0.2,
+  envRotX: 0.0168146928204145,
+  envRotY: 2.11681469282041,
+  envRotZ: 0.916814692820414,
+};
+
 export async function app(canvas: HTMLCanvasElement) {
   await engine.init(canvas, assets, engineOptions);
 
+  const gui = new GUI();
+
   const aMainScene = mainScene();
   engine.setMainScene(aMainScene);
+
+  const pmrem = new THREE.PMREMGenerator(engine.renderer.threeRenderer);
+  pmrem.compileEquirectangularShader();
+
+  new RGBELoader().setPath("/environment-maps/").load("monkstown_castle_2k.hdr", (hdrEquirect) => {
+    const envMap = pmrem.fromEquirectangular(hdrEquirect).texture;
+    hdrEquirect.dispose();
+    pmrem.dispose();
+    (aMainScene.threeObject as THREE.Scene).environment = envMap;
+    (aMainScene.threeObject as THREE.Scene).environmentIntensity = 0.1;
+    // (aMainScene.threeObject as THREE.Scene).environmentRotation = new THREE.Euler(
+    //   debug.envRotX,
+    //   debug.envRotY,
+    //   debug.envRotZ,
+    // );
+    const envFolder = gui.addFolder("Environment");
+    envFolder
+      .add(debug, "envIntensity", 0, 3, 0.1)
+      .onChange(
+        (val: number) => ((aMainScene.threeObject as THREE.Scene).environmentIntensity = val),
+      );
+    envFolder
+      .add(debug, "envRotX", -Math.PI * 2, Math.PI * 2, 0.1)
+      .onChange(
+        (val: number) => ((aMainScene.threeObject as THREE.Scene).environmentRotation.x = val),
+      );
+    envFolder
+      .add(debug, "envRotY", -Math.PI * 2, Math.PI * 2, 0.1)
+      .onChange(
+        (val: number) => ((aMainScene.threeObject as THREE.Scene).environmentRotation.y = val),
+      );
+    envFolder
+      .add(debug, "envRotZ", -Math.PI * 2, Math.PI * 2, 0.1)
+      .onChange(
+        (val: number) => ((aMainScene.threeObject as THREE.Scene).environmentRotation.z = val),
+      );
+
+    // (aMainScene.threeObject as THREE.Scene).background = envMap;
+  });
 
   const aMainCamera = mainCamera();
   aMainScene.add(aMainCamera);
@@ -136,6 +186,11 @@ export async function app(canvas: HTMLCanvasElement) {
       onUpdate: (self) => {
         woPhone.setAnimationTime(0, self.progress);
       },
+    },
+    onComplete: () => {
+      console.log("COMPLETE");
+      aMainScene.threeScene.environmentRotation = new THREE.Euler(0, 0, 0);
+      aMainScene.threeScene.environmentIntensity = 0.1;
     },
   });
   section1Timeline.from(section1Text, {

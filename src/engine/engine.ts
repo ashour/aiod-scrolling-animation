@@ -53,6 +53,10 @@ export default {
     return this;
   },
 
+  get renderer() {
+    return _renderer;
+  },
+
   get gui() {
     if (!_gui) {
       _gui = new GUI();
