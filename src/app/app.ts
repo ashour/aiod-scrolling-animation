@@ -33,41 +33,39 @@ export async function app(canvas: HTMLCanvasElement) {
   const pmrem = new THREE.PMREMGenerator(engine.renderer.threeRenderer);
   pmrem.compileEquirectangularShader();
 
-  new RGBELoader().setPath("/environment-maps/").load("monkstown_castle_2k.hdr", (hdrEquirect) => {
-    const envMap = pmrem.fromEquirectangular(hdrEquirect).texture;
-    hdrEquirect.dispose();
-    pmrem.dispose();
-    (aMainScene.threeObject as THREE.Scene).environment = envMap;
-    (aMainScene.threeObject as THREE.Scene).environmentIntensity = 0.1;
-    // (aMainScene.threeObject as THREE.Scene).environmentRotation = new THREE.Euler(
-    //   debug.envRotX,
-    //   debug.envRotY,
-    //   debug.envRotZ,
-    // );
-    const envFolder = gui.addFolder("Environment");
-    envFolder
-      .add(debug, "envIntensity", 0, 3, 0.1)
-      .onChange(
-        (val: number) => ((aMainScene.threeObject as THREE.Scene).environmentIntensity = val),
-      );
-    envFolder
-      .add(debug, "envRotX", -Math.PI * 2, Math.PI * 2, 0.1)
-      .onChange(
-        (val: number) => ((aMainScene.threeObject as THREE.Scene).environmentRotation.x = val),
-      );
-    envFolder
-      .add(debug, "envRotY", -Math.PI * 2, Math.PI * 2, 0.1)
-      .onChange(
-        (val: number) => ((aMainScene.threeObject as THREE.Scene).environmentRotation.y = val),
-      );
-    envFolder
-      .add(debug, "envRotZ", -Math.PI * 2, Math.PI * 2, 0.1)
-      .onChange(
-        (val: number) => ((aMainScene.threeObject as THREE.Scene).environmentRotation.z = val),
-      );
+  new RGBELoader()
+    .setPath("/environment-maps/")
+    .load("bloem_field_sunrise_2k.hdr", (hdrEquirect) => {
+      const envMap = pmrem.fromEquirectangular(hdrEquirect).texture;
+      hdrEquirect.dispose();
+      pmrem.dispose();
+      (aMainScene.threeObject as THREE.Scene).environment = envMap;
+      (aMainScene.threeObject as THREE.Scene).environmentIntensity = 0.2;
+      // (aMainScene.threeObject as THREE.Scene).environmentRotation = new THREE.Euler(-0.08, 4.42, 0);
+      const envFolder = gui.addFolder("Environment");
+      envFolder
+        .add(debug, "envIntensity", 0, 3, 0.1)
+        .onChange(
+          (val: number) => ((aMainScene.threeObject as THREE.Scene).environmentIntensity = val),
+        );
+      envFolder
+        .add(debug, "envRotX", -Math.PI * 2, Math.PI * 2, 0.1)
+        .onChange(
+          (val: number) => ((aMainScene.threeObject as THREE.Scene).environmentRotation.x = val),
+        );
+      envFolder
+        .add(debug, "envRotY", -Math.PI * 2, Math.PI * 2, 0.1)
+        .onChange(
+          (val: number) => ((aMainScene.threeObject as THREE.Scene).environmentRotation.y = val),
+        );
+      envFolder
+        .add(debug, "envRotZ", -Math.PI * 2, Math.PI * 2, 0.1)
+        .onChange(
+          (val: number) => ((aMainScene.threeObject as THREE.Scene).environmentRotation.z = val),
+        );
 
-    // (aMainScene.threeObject as THREE.Scene).background = envMap;
-  });
+      // (aMainScene.threeObject as THREE.Scene).background = envMap;
+    });
 
   const aMainCamera = mainCamera();
   aMainScene.add(aMainCamera);
@@ -186,11 +184,6 @@ export async function app(canvas: HTMLCanvasElement) {
       onUpdate: (self) => {
         woPhone.setAnimationTime(0, self.progress);
       },
-    },
-    onComplete: () => {
-      console.log("COMPLETE");
-      aMainScene.threeScene.environmentRotation = new THREE.Euler(0, 0, 0);
-      aMainScene.threeScene.environmentIntensity = 0.1;
     },
   });
   section1Timeline.from(section1Text, {
