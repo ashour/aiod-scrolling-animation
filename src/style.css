@@ -67,28 +67,24 @@ h6 {
   isolation: isolate;
 }
 
-* {
-  --label0-translateX: 0px;
-  --label0-translateY: 0px;
-  --label0-scale: 0;
-}
-
-#label-1-0 {
-  position: absolute;
-  top: 0;
-  left: 0;
-  transform: translate(var(--label0-translateX), var(--label0-translateY)) scale(var(--label0-scale));
-}
-
-
 body
 {
   height: 400vh;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-  color: #7BBFFF;
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: 300;
+  font-style: normal;
+  color: #A7C4CD;
   background: #222A2A;
   background: linear-gradient(to bottom, rgba(15, 17, 18, 1) 0vh, rgba(34, 42, 42, 1) 100vh);
   background-attachment: fixed;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Merriweather", serif;
+  font-optical-sizing: auto;
+  font-weight: 900;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
 }
 
 main {
@@ -141,4 +137,71 @@ main {
   100% {
     transform: rotate(360deg);
   }
+}
+
+.webgl-ui {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  pointer-events: none;
+  z-index: 10;
+}
+
+* {
+  --label0-translateX: 0px;
+  --label0-translateY: 0px;
+  --label0-scale: 0;
+}
+
+.part-label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(var(--label0-translateX), var(--label0-translateY)) scale(var(--label0-scale));
+  padding: 0.5rem;
+  background-color: #262C2A;
+  border: 0.5px solid #A7C4CD;
+  border-radius: 4px;
+}
+
+.part-label__header {
+  font-size: 1.1428571429rem;
+  line-height: 1.1;
+  margin-top: -0.1rem;
+  margin-bottom: 0.5rem;
+}
+.part-label__body {
+  font-size: 0.625rem;
+}
+.part-label__body > * {
+  margin-bottom: 0.125rem;
+}
+.part-label__body > *:last-child {
+  margin-bottom: 0;
+}
+.part-label__pill {
+  padding: 1px 2px;
+  border-radius: 5%;
+  font-weight: 500;
+  text-transform: uppercase;
+  color: #262C2A;
+  background-color: #A7C4CD;
+}
+
+.part-label::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateY(-100%);
+  width: 0.5px;
+  height: 10px;
+  background-color: #A7C4CD;
+}
+
+#label-1-0::before {
+  left: 25%;
+  height: 60px;
 }

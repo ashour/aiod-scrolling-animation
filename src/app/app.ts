@@ -40,7 +40,7 @@ export async function app(canvas: HTMLCanvasElement) {
       hdrEquirect.dispose();
       pmrem.dispose();
       (aMainScene.threeObject as THREE.Scene).environment = envMap;
-      (aMainScene.threeObject as THREE.Scene).environmentIntensity = 0.2;
+      (aMainScene.threeObject as THREE.Scene).environmentIntensity = 0.25;
       // (aMainScene.threeObject as THREE.Scene).environmentRotation = new THREE.Euler(-0.08, 4.42, 0);
       // const envFolder = gui.addFolder("Environment");
       // envFolder
@@ -122,37 +122,24 @@ export async function app(canvas: HTMLCanvasElement) {
 
   startFloating();
 
-  let phoneWorldPos = new THREE.Vector3();
-  const testLabel = document.getElementById("test")!;
-  const piece1 = woPhone.threeObject.getObjectByName("Phone_Screen")!;
-  const piece2 = woPhone.threeObject.getObjectByName("Piece2")!;
-  let piece1WorldPos = new THREE.Vector3();
-  let piece2WorldPos = new THREE.Vector3();
+  let piece1AnimatingAverageWorldPos = new THREE.Vector3(-7.877, -8.702, 1.957);
   const label0 = document.getElementById("label-1-0")!;
-  const label1 = document.getElementById("label-1-1")!;
-  engine.onLateUpdate((_deltaTime) => {
-    woPhone.threeObject.getWorldPosition(phoneWorldPos);
-    phoneWorldPos.project(aMainCamera.threeObject as THREE.Camera);
-
+  function positionLabel0() {
     const halfWindowWidth = browserWindow.width / 2;
     const halfWindowHeight = browserWindow.height / 2;
 
-    const phoneScreenPosX = phoneWorldPos.x * halfWindowWidth + halfWindowWidth;
-    const phoneScreenPosY = -phoneWorldPos.y * halfWindowHeight + halfWindowHeight + window.scrollY;
-
-    const halfTestLabelWidth = testLabel.offsetWidth / 2;
-
-    testLabel.style.translate = `${phoneScreenPosX - halfTestLabelWidth}px ${phoneScreenPosY - 190}px`;
-
     const halfLabel0Width = label0.offsetWidth / 2;
-    piece1.getWorldPosition(piece1WorldPos);
-    piece1WorldPos.project(aMainCamera.threeObject as THREE.Camera);
-    const piece1ScreenPosX = piece1WorldPos.x * halfWindowWidth + halfWindowWidth;
-    const piece1ScreenPosY =
-      -piece1WorldPos.y * halfWindowHeight + halfWindowHeight + window.scrollY;
+
+    let piece1AverageWorldPos = piece1AnimatingAverageWorldPos.clone();
+    piece1AverageWorldPos.project(aMainCamera.threeObject as THREE.Camera);
+
+    const piece1ScreenPosX = piece1AverageWorldPos.x * halfWindowWidth + halfWindowWidth;
+    const piece1ScreenPosY = -piece1AverageWorldPos.y * halfWindowHeight + halfWindowHeight;
     label0.style.setProperty("--label0-translateX", `${piece1ScreenPosX - halfLabel0Width}px`);
-    label0.style.setProperty("--label0-translateY", `${piece1ScreenPosY + 40}px`);
-  });
+    label0.style.setProperty("--label0-translateY", `${piece1ScreenPosY + 80}px`);
+  }
+  positionLabel0();
+  engine.onWindowResize(positionLabel0);
 
   const section0 = document.querySelector("#section-0");
   gsap.from(section0, { xPercent: -100, duration: 0.5, ease: "power1.out" });

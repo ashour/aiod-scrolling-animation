@@ -1,5 +1,3 @@
-precision highp float;
-
 uniform vec3 color;
 uniform float innerRadius;
 uniform float outerRadius;

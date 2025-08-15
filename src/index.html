@@ -4,22 +4,23 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>3D Scroll Animation Demo | ashour.io</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;500&family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
     <main>
       <img src="/images/loading-spinner.svg" alt="" id="loading-spinner" />
-      <p id="test" style="position: absolute; left: 0; top: 0">This is a test label</p>
       <div class="section" id="section-0">
         <div class="section__text">
           <h2 class="section__header">Hello world!</h2>
           <p class="section__tagline">Meet Etophone</p>
         </div>
       </div>
-      <p id="label-1-0">Camera - Part K25002</p>
-      <p id="label-1-1" style="position: absolute; top: 0; left: 0; transform: scale(0)">
-        Battery - Part K25003
-      </p>
       <div class="section" id="section-1">
         <div class="section__text">
           <h2 class="section__header">Modular and repairable</h2>
@@ -30,6 +31,17 @@
         <div class="section__text">
           <h2 class="section__header">Farily sourced</h2>
           <p class="section__tagline">We actually give a damn</p>
+        </div>
+      </div>
+      <div class="webgl-ui">
+        <div id="label-1-0" class="part-label">
+          <h3 class="part-label__header">speakers</h3>
+          <div class="part-label__body">
+            <p><span class="part-label__pill">Part no.</span> 25-2850</p>
+            <p>Stereo Quad Driver Array</p>
+            <p>Dolby Atmos&reg;</p>
+            <p>Hi-Res Audio Certified</p>
+          </div>
         </div>
       </div>
       <canvas class="webgl"></canvas>
