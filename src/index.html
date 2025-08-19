@@ -15,24 +15,11 @@
   <body>
     <main>
       <img src="/images/loading-spinner.svg" alt="" id="loading-spinner" />
-      <div class="section" id="section-0">
-        <div class="section__text">
-          <h2 class="section__header">Hello world!</h2>
-          <p class="section__tagline">Meet Etophone</p>
-        </div>
-      </div>
-      <div class="section" id="section-1">
-        <div class="section__text">
-          <h2 class="section__header">Modular and repairable</h2>
-          <p class="section__tagline">Parts guaranteed in stock for 10 years</p>
-        </div>
-      </div>
-      <div class="section" id="section-2">
-        <div class="section__text">
-          <h2 class="section__header">Farily sourced</h2>
-          <p class="section__tagline">We actually give a damn</p>
-        </div>
-      </div>
+
+      <div class="section" id="section-0"></div>
+      <div class="section" id="section-1"></div>
+      <div class="section" id="section-2"></div>
+
       <div class="webgl-ui">
         <div id="label-1-0" class="part-label">
           <h3 class="part-label__header">speakers</h3>
@@ -43,7 +30,23 @@
             <p>Hi-Res Audio Certified</p>
           </div>
         </div>
+
+        <div class="section-headers">
+          <div class="section-header" id="section-0-header">
+            <h2 class="section-header__header">Introducing Etophone</h2>
+            <p class="section-header__tagline">Hello world, meet a phone that ❤️ you back</p>
+          </div>
+          <div class="section-header" id="section-1-header">
+            <h2 class="section-header__header">Modular &amp; repairable</h2>
+            <p class="section-header__tagline">Parts in stock for 10 years. Got a screwdriver?</p>
+          </div>
+          <div class="section-header" id="section-2-header">
+            <h2 class="section-header__header">Fairly sourced</h2>
+            <p class="section-header__tagline">We actually give a damn</p>
+          </div>
+        </div>
       </div>
+
       <canvas class="webgl"></canvas>
     </main>
     <script type="module" src="./main.js"></script>

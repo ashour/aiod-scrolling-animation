@@ -22,7 +22,7 @@ export function phone(): WorldObject<PhoneProps> {
 
   console.log(_gltf);
 
-  _phone.position.set(1, -3, 4.3);
+  _phone.position.set(-0.1, -5.5, 4.3);
   _phone.rotation.set(-0.1, -0.3, -0.1);
 
   const _halo = backgroundHalo();

@@ -5,7 +5,6 @@ import { axesWidget } from "@/engine/debug/axes-widget";
 import { browserWindow } from "@/engine/system/browser_window";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import GUI from "lil-gui";
 import * as THREE from "three";
 import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader";
 import { keyLight } from "./key-light";
@@ -25,7 +24,7 @@ const debug = {
 export async function app(canvas: HTMLCanvasElement) {
   await engine.init(canvas, assets, engineOptions);
 
-  const gui = new GUI();
+  // const gui = new GUI();
 
   const aMainScene = mainScene();
   engine.setMainScene(aMainScene);
@@ -41,30 +40,6 @@ export async function app(canvas: HTMLCanvasElement) {
       pmrem.dispose();
       (aMainScene.threeObject as THREE.Scene).environment = envMap;
       (aMainScene.threeObject as THREE.Scene).environmentIntensity = 0.25;
-      // (aMainScene.threeObject as THREE.Scene).environmentRotation = new THREE.Euler(-0.08, 4.42, 0);
-      // const envFolder = gui.addFolder("Environment");
-      // envFolder
-      //   .add(debug, "envIntensity", 0, 3, 0.1)
-      //   .onChange(
-      //     (val: number) => ((aMainScene.threeObject as THREE.Scene).environmentIntensity = val),
-      //   );
-      // envFolder
-      //   .add(debug, "envRotX", -Math.PI * 2, Math.PI * 2, 0.1)
-      //   .onChange(
-      //     (val: number) => ((aMainScene.threeObject as THREE.Scene).environmentRotation.x = val),
-      //   );
-      // envFolder
-      //   .add(debug, "envRotY", -Math.PI * 2, Math.PI * 2, 0.1)
-      //   .onChange(
-      //     (val: number) => ((aMainScene.threeObject as THREE.Scene).environmentRotation.y = val),
-      //   );
-      // envFolder
-      //   .add(debug, "envRotZ", -Math.PI * 2, Math.PI * 2, 0.1)
-      //   .onChange(
-      //     (val: number) => ((aMainScene.threeObject as THREE.Scene).environmentRotation.z = val),
-      //   );
-
-      // (aMainScene.threeObject as THREE.Scene).background = envMap;
     });
 
   const aMainCamera = mainCamera();
@@ -122,7 +97,7 @@ export async function app(canvas: HTMLCanvasElement) {
 
   startFloating();
 
-  let piece1AnimatingAverageWorldPos = new THREE.Vector3(-7.877, -8.702, 1.957);
+  let piece1AnimatingAverageWorldPos = new THREE.Vector3(-7.877, -10.702, 1.957);
   const label0 = document.getElementById("label-1-0")!;
   function positionLabel0() {
     const halfWindowWidth = browserWindow.width / 2;
@@ -141,15 +116,13 @@ export async function app(canvas: HTMLCanvasElement) {
   positionLabel0();
   engine.onWindowResize(positionLabel0);
 
-  const section0 = document.querySelector("#section-0");
-  gsap.from(section0, { xPercent: -100, duration: 0.5, ease: "power1.out" });
-
-  const section1Text = document.querySelector("#section-1 .section__text");
+  const section1 = document.querySelector("#section-1");
   let section1Timeline = gsap.timeline({
     scrollTrigger: {
       id: "section-1",
-      trigger: section1Text,
-      end: "bottom 25%",
+      trigger: section1,
+      start: "top 99%",
+      end: "top 1%",
       scrub: 1,
       snap: {
         snapTo: 1,
@@ -173,21 +146,21 @@ export async function app(canvas: HTMLCanvasElement) {
       },
     },
   });
-  section1Timeline.from(section1Text, {
-    xPercent: -100,
-    ease: "power1.out",
-  });
-
+  section1Timeline.to("#section-0-header", { xPercent: 220, duration: 0.5, ease: "power1.out" });
+  section1Timeline.to(
+    "#section-1-header",
+    { xPercent: 110, duration: 0.5, ease: "power1.out" },
+    "<",
+  );
   section1Timeline.to(label0, { "--label0-scale": 1 });
 
-  // ---------------
-
-  const section2Text = document.querySelector("#section-2 .section__text");
+  const section2 = document.querySelector("#section-2");
   let section2Timeline = gsap.timeline({
     scrollTrigger: {
-      id: "section-1",
-      trigger: section2Text,
-      end: "bottom 25%",
+      id: "section-2",
+      trigger: section2,
+      start: "top 99%",
+      end: "top 1%",
       scrub: 1,
       snap: {
         snapTo: 1,
@@ -211,8 +184,10 @@ export async function app(canvas: HTMLCanvasElement) {
       },
     },
   });
-  section2Timeline.from(section1Text, {
-    xPercent: -100,
-    ease: "power1.out",
-  });
+  section2Timeline.to("#section-1-header", { xPercent: 220, duration: 0.5, ease: "power1.out" });
+  section2Timeline.to(
+    "#section-2-header",
+    { xPercent: 110, duration: 0.5, ease: "power1.out" },
+    "<",
+  );
 }

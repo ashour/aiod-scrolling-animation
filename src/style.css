@@ -69,7 +69,6 @@ h6 {
 
 body
 {
-  height: 400vh;
   font-family: "IBM Plex Mono", monospace;
   font-weight: 300;
   font-style: normal;
@@ -110,19 +109,35 @@ main {
 
 .section {
   height: 100vh;
+  /* margin-bottom: 100px; */
 }
-.section__header {
+#section-0 {
+  border: 2px solid yellow;
+}
+#section-1 {
+  border: 2px solid blue;
+}
+#section-2 {
+  border: 2px solid orange;
+}
+
+.section-header {
+  position: absolute;
+  width: 90%;
+  top: 2rem;
+  left: 2rem;
+  transform: translateX(-110%);
+}
+.section-header__header {
   font-size: 3.5rem;
   line-height: 1;
 }
-.section__tagline {
+.section-header__tagline {
   font-size: 2.25rem;
   font-weight: 100;
 }
-
-#section-0 {
-  margin-left: 10%;
-  margin-top: 20%;
+#section-0-header {
+  transform: none;
 }
 
 #loading-spinner {
@@ -203,5 +218,5 @@ main {
 
 #label-1-0::before {
   left: 25%;
-  height: 60px;
+  height: 40px;
 }
