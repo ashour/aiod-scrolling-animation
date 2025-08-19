@@ -111,7 +111,7 @@ export async function app(canvas: HTMLCanvasElement) {
     const piece1ScreenPosX = piece1AverageWorldPos.x * halfWindowWidth + halfWindowWidth;
     const piece1ScreenPosY = -piece1AverageWorldPos.y * halfWindowHeight + halfWindowHeight;
     label0.style.setProperty("--label0-translateX", `${piece1ScreenPosX - halfLabel0Width}px`);
-    label0.style.setProperty("--label0-translateY", `${piece1ScreenPosY + 80}px`);
+    label0.style.setProperty("--label0-translateY", `${piece1ScreenPosY - 200}px`);
   }
   positionLabel0();
   engine.onWindowResize(positionLabel0);
@@ -126,9 +126,9 @@ export async function app(canvas: HTMLCanvasElement) {
       scrub: 1,
       snap: {
         snapTo: 1,
-        ease: "power3",
+        ease: "none",
       },
-      markers: true,
+      markers: false,
       onEnter: (_self) => {
         stopFloating();
       },
@@ -141,25 +141,33 @@ export async function app(canvas: HTMLCanvasElement) {
       onLeaveBack: (_self) => {
         startFloating();
       },
-      onUpdate: (self) => {
-        woPhone.setAnimationTime(0, self.progress);
-      },
     },
   });
-  section1Timeline.to("#section-0-header", { xPercent: 220, duration: 0.5, ease: "power1.out" });
-  section1Timeline.to(
-    "#section-1-header",
-    { xPercent: 110, duration: 0.5, ease: "power1.out" },
-    "<",
-  );
-  section1Timeline.to(label0, { "--label0-scale": 1 });
 
-  const section2 = document.querySelector("#section-2");
+  const section1PhoneAnimationProgress = { value: 0 };
+
+  section1Timeline
+    .addLabel("currentHeaderDown")
+    .to("#section-0-header", { y: "100vh", duration: 0.5, ease: "power1.out" })
+    .addLabel("phone")
+    .to(section1PhoneAnimationProgress, {
+      value: 1,
+      duration: 8,
+      ease: "none",
+      onUpdate: () => {
+        woPhone.setAnimationTime(0, section1PhoneAnimationProgress.value);
+      },
+    })
+    .addLabel("labels")
+    .addLabel("nextHeaderUp")
+    .to(label0, { "--label0-scale": 1, duration: 2, ease: "power1.out" })
+    .to("#section-1-header", { y: 0, duration: 2, ease: "power1.out" }, "<");
+
   let section2Timeline = gsap.timeline({
     scrollTrigger: {
       id: "section-2",
-      trigger: section2,
-      start: "top 99%",
+      trigger: "#section-2",
+      start: "+=200 99%",
       end: "top 1%",
       scrub: 1,
       snap: {
