@@ -116,19 +116,18 @@ export async function app(canvas: HTMLCanvasElement) {
   positionLabel0();
   engine.onWindowResize(positionLabel0);
 
-  const section1 = document.querySelector("#section-1");
   let section1Timeline = gsap.timeline({
     scrollTrigger: {
       id: "section-1",
-      trigger: section1,
-      start: "top 99%",
+      trigger: "#section-1",
+      start: "+=200 99%",
       end: "top 1%",
       scrub: 1,
       snap: {
         snapTo: 1,
         ease: "none",
       },
-      markers: false,
+      markers: true,
       onEnter: (_self) => {
         stopFloating();
       },
@@ -159,9 +158,9 @@ export async function app(canvas: HTMLCanvasElement) {
       },
     })
     .addLabel("labels")
+    .to(label0, { "--label0-scale": 1, duration: 0.5, ease: "power1.out" })
     .addLabel("nextHeaderUp")
-    .to(label0, { "--label0-scale": 1, duration: 2, ease: "power1.out" })
-    .to("#section-1-header", { y: 0, duration: 2, ease: "power1.out" }, "<");
+    .to("#section-1-header", { y: 0, duration: 0.5, ease: "power1.out" }, "<");
 
   let section2Timeline = gsap.timeline({
     scrollTrigger: {
@@ -172,7 +171,7 @@ export async function app(canvas: HTMLCanvasElement) {
       scrub: 1,
       snap: {
         snapTo: 1,
-        ease: "power3",
+        ease: "none",
       },
       markers: true,
       onEnter: (_self) => {
@@ -187,15 +186,23 @@ export async function app(canvas: HTMLCanvasElement) {
       onLeaveBack: (_self) => {
         startFloating();
       },
-      onUpdate: (self) => {
-        woPhone.setAnimationTime(1, self.progress);
-      },
     },
   });
-  section2Timeline.to("#section-1-header", { xPercent: 220, duration: 0.5, ease: "power1.out" });
-  section2Timeline.to(
-    "#section-2-header",
-    { xPercent: 110, duration: 0.5, ease: "power1.out" },
-    "<",
-  );
+
+  const section2PhoneAnimationProgress = { value: 0 };
+
+  section2Timeline
+    .addLabel("section1HeaderOut")
+    .to("#section-1-header", { y: "100vh", duration: 0.5, ease: "power1.out" })
+    .addLabel("phone")
+    .to(section2PhoneAnimationProgress, {
+      value: 1,
+      duration: 8,
+      ease: "none",
+      onUpdate: () => {
+        woPhone.setAnimationTime(1, section2PhoneAnimationProgress.value);
+      },
+    })
+    .addLabel("section2HeaderIn")
+    .to("#section-2-header", { y: 0, duration: 0.5, ease: "power1.out" });
 }

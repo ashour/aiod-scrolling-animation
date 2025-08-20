@@ -108,7 +108,7 @@ main {
 }
 
 .section {
-  height: 100vh;
+  height: calc(100vh + 200px);
 }
 /* #section-0 {
   border: 2px solid yellow;
@@ -139,6 +139,9 @@ main {
   transform: none;
 }
 #section-1-header {
+  top: 48rem;
+}
+#section-2-header {
   top: 48rem;
 }
 
