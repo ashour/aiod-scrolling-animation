@@ -7,6 +7,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import * as THREE from "three";
 import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader";
+import { makeAmbientLight } from "./ambient-light";
 import { keyLight } from "./key-light";
 import { mainCamera } from "./main-camera";
 import { mainScene } from "./main-scene";
@@ -15,7 +16,7 @@ import { phone } from "./phone";
 gsap.registerPlugin(ScrollTrigger);
 
 const debug = {
-  envIntensity: 0.2,
+  envIntensity: 0.25,
   envRotX: 0.0168146928204145,
   envRotY: 2.11681469282041,
   envRotZ: 0.916814692820414,
@@ -24,7 +25,7 @@ const debug = {
 export async function app(canvas: HTMLCanvasElement) {
   await engine.init(canvas, assets, engineOptions);
 
-  // const gui = new GUI();
+  const gui = engine.gui;
 
   const aMainScene = mainScene();
   engine.setMainScene(aMainScene);
@@ -32,14 +33,57 @@ export async function app(canvas: HTMLCanvasElement) {
   const pmrem = new THREE.PMREMGenerator(engine.renderer.threeRenderer);
   pmrem.compileEquirectangularShader();
 
+  // Store environment map and scene reference for debug controls
+  let envMap: THREE.Texture;
+  let mainThreeScene: THREE.Scene;
+
   new RGBELoader()
     .setPath("/environment-maps/")
     .load("bloem_field_sunrise_2k.hdr", (hdrEquirect) => {
-      const envMap = pmrem.fromEquirectangular(hdrEquirect).texture;
+      envMap = pmrem.fromEquirectangular(hdrEquirect).texture;
       hdrEquirect.dispose();
       pmrem.dispose();
-      (aMainScene.threeObject as THREE.Scene).environment = envMap;
-      (aMainScene.threeObject as THREE.Scene).environmentIntensity = 0.25;
+
+      mainThreeScene = aMainScene.threeObject as THREE.Scene;
+      mainThreeScene.environment = envMap;
+      mainThreeScene.environmentIntensity = debug.envIntensity;
+      mainThreeScene.environmentRotation = new THREE.Euler(0.75, 1.68, 0.59);
+
+      // Add debug GUI controls for environment map
+      const envFolder = gui.addFolder("Environment Map");
+
+      envFolder
+        .add(debug, "envIntensity", 0, 2, 0.01)
+        .name("Intensity")
+        .onChange((value: number) => {
+          mainThreeScene.environmentIntensity = value;
+        });
+
+      envFolder
+        .add(debug, "envRotX", -Math.PI, Math.PI, 0.01)
+        .name("Rotation X")
+        .onChange(() => {
+          mainThreeScene.environmentRotation.set(debug.envRotX, debug.envRotY, debug.envRotZ);
+          mainThreeScene.backgroundRotation.set(debug.envRotX, debug.envRotY, debug.envRotZ);
+        });
+
+      envFolder
+        .add(debug, "envRotY", -Math.PI, Math.PI, 0.01)
+        .name("Rotation Y")
+        .onChange(() => {
+          mainThreeScene.environmentRotation.set(debug.envRotX, debug.envRotY, debug.envRotZ);
+          mainThreeScene.backgroundRotation.set(debug.envRotX, debug.envRotY, debug.envRotZ);
+        });
+
+      envFolder
+        .add(debug, "envRotZ", -Math.PI, Math.PI, 0.01)
+        .name("Rotation Z")
+        .onChange(() => {
+          mainThreeScene.environmentRotation.set(debug.envRotX, debug.envRotY, debug.envRotZ);
+          mainThreeScene.backgroundRotation.set(debug.envRotX, debug.envRotY, debug.envRotZ);
+        });
+
+      envFolder.open();
     });
 
   const aMainCamera = mainCamera();
@@ -48,6 +92,7 @@ export async function app(canvas: HTMLCanvasElement) {
 
   aMainScene.add(axesWidget(8));
 
+  aMainScene.add(makeAmbientLight());
   aMainScene.add(keyLight());
 
   const woPhone = phone();
