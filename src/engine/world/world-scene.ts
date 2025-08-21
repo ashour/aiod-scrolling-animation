@@ -28,6 +28,32 @@ export default function worldScene(options: WorldSceneOptions = {}): WorldScene 
       threeScene.add(object.threeObject);
     },
 
+    setEnvironmentMap(
+      map: THREE.Texture,
+      intensity: number = 1,
+      rotation: THREE.Euler = new THREE.Euler(0, 0, 0),
+    ): void {
+      const pmrem = new THREE.PMREMGenerator(engine.renderer.threeRenderer);
+      pmrem.compileEquirectangularShader();
+
+      let processedEnvMap: THREE.Texture = pmrem.fromEquirectangular(map).texture;
+
+      map.dispose();
+      pmrem.dispose();
+
+      threeScene.environment = processedEnvMap;
+      threeScene.environmentIntensity = intensity;
+      threeScene.environmentRotation = rotation;
+    },
+
+    setEnvironmentMapIntensity(intensity: number): void {
+      threeScene.environmentIntensity = intensity;
+    },
+
+    setEnvironmentMapRotation(rotation: THREE.Euler): void {
+      threeScene.environmentRotation.set(rotation.x, rotation.y, rotation.z);
+    },
+
     update(deltaTime: number) {
       for (const object of objects) {
         if (object.update) {

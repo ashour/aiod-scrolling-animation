@@ -88,6 +88,13 @@ type WorldObject<T = {}> = {
 type WorldScene<T = {}> = WorldObject<T> & {
   threeScene: import("three").Scene;
   add(object: WorldObject<T>): void;
+  setEnvironmentMap(
+    map: import("three").Texture,
+    intensity?: number,
+    rotation?: import("three").Euler,
+  ): void;
+  setEnvironmentMapIntensity(intensity: number): void;
+  setEnvironmentMapRotation(rotation: import("three").Euler): void;
 };
 
 type WorldCamera = WorldObject<{}> & {

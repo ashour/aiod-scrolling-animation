@@ -29,22 +29,13 @@ export async function app(canvas: HTMLCanvasElement) {
   const aMainScene = mainScene();
   engine.setMainScene(aMainScene);
 
-  // TODO refactor this into engine
-  const pmrem = new THREE.PMREMGenerator(engine.renderer.threeRenderer);
-  pmrem.compileEquirectangularShader();
-
   // Store environment map and scene reference for debug controls
-  const hdrEquirect = engine.resource<THREE.Texture>("environmentMap");
-  let envMap: THREE.Texture = pmrem.fromEquirectangular(hdrEquirect).texture;
-  hdrEquirect.dispose();
-  pmrem.dispose();
+  const envMap = engine.resource<THREE.Texture>("environmentMap");
+  aMainScene.setEnvironmentMap(envMap, debug.envIntensity, new THREE.Euler(0.75, 1.68, 0.59));
 
   let mainThreeScene: THREE.Scene;
 
   mainThreeScene = aMainScene.threeObject as THREE.Scene;
-  mainThreeScene.environment = envMap;
-  mainThreeScene.environmentIntensity = debug.envIntensity;
-  mainThreeScene.environmentRotation = new THREE.Euler(0.75, 1.68, 0.59);
 
   // Add debug GUI controls for environment map
   const envFolder = gui.addFolder("Environment Map");
@@ -53,31 +44,34 @@ export async function app(canvas: HTMLCanvasElement) {
     .add(debug, "envIntensity", 0, 2, 0.01)
     .name("Intensity")
     .onChange((value: number) => {
-      mainThreeScene.environmentIntensity = value;
+      aMainScene.setEnvironmentMapIntensity(value);
     });
 
   envFolder
     .add(debug, "envRotX", -Math.PI, Math.PI, 0.01)
     .name("Rotation X")
     .onChange(() => {
-      mainThreeScene.environmentRotation.set(debug.envRotX, debug.envRotY, debug.envRotZ);
-      mainThreeScene.backgroundRotation.set(debug.envRotX, debug.envRotY, debug.envRotZ);
+      aMainScene.setEnvironmentMapRotation(
+        new THREE.Euler(debug.envRotX, debug.envRotY, debug.envRotZ),
+      );
     });
 
   envFolder
     .add(debug, "envRotY", -Math.PI, Math.PI, 0.01)
     .name("Rotation Y")
     .onChange(() => {
-      mainThreeScene.environmentRotation.set(debug.envRotX, debug.envRotY, debug.envRotZ);
-      mainThreeScene.backgroundRotation.set(debug.envRotX, debug.envRotY, debug.envRotZ);
+      aMainScene.setEnvironmentMapRotation(
+        new THREE.Euler(debug.envRotX, debug.envRotY, debug.envRotZ),
+      );
     });
 
   envFolder
     .add(debug, "envRotZ", -Math.PI, Math.PI, 0.01)
     .name("Rotation Z")
     .onChange(() => {
-      mainThreeScene.environmentRotation.set(debug.envRotX, debug.envRotY, debug.envRotZ);
-      mainThreeScene.backgroundRotation.set(debug.envRotX, debug.envRotY, debug.envRotZ);
+      aMainScene.setEnvironmentMapRotation(
+        new THREE.Euler(debug.envRotX, debug.envRotY, debug.envRotZ),
+      );
     });
 
   envFolder.open();
