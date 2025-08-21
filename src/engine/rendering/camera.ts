@@ -5,14 +5,14 @@ type PerspectiveCameraParams = {
   aspect: number;
   near: number;
   far: number;
-  position: Vec3 | null;
+  position: THREE.Vector3 | null;
 };
 
 export function perspectiveCamera(args: PerspectiveCameraParams): WorldCamera {
   const threeObject = new THREE.PerspectiveCamera(args.fov, args.aspect, args.near, args.far);
 
   if (args.position) {
-    threeObject.position.set(...args.position);
+    threeObject.position.set(args.position.x, args.position.y, args.position.z);
   }
 
   return {

@@ -1,6 +1,6 @@
 import type GUI from "lil-gui";
 
-const INIT_FOLDER_OPEN: boolean = false;
+const INIT_FOLDER_OPEN = false;
 
 export function addEnvironmentMapDebugControls(gui: GUI, scene: WorldScene) {
   const controls = gui.addFolder("Environment Map");

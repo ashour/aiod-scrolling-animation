@@ -9,38 +9,41 @@ import * as THREE from "three";
 import { makeAmbientLight } from "./ambient-light";
 import { addEnvironmentMapDebugControls } from "./debug-environment-map";
 import { keyLight } from "./key-light";
-import { mainCamera } from "./main-camera";
-import { mainScene } from "./main-scene";
+import { makeMainCamera } from "./main-camera";
+import { makeMainScene } from "./main-scene";
 import { phone } from "./phone";
 
 gsap.registerPlugin(ScrollTrigger);
+
+const ENV_MAP_INTENSITY = 0.25;
+const ENV_MAP_ROTATION = new THREE.Euler(0.75, 1.68, 0.59);
 
 export async function app(canvas: HTMLCanvasElement) {
   await engine.init(canvas, assets, engineOptions);
 
   const gui = engine.gui;
 
-  const aMainScene = mainScene();
-  engine.setMainScene(aMainScene);
+  const mainScene = makeMainScene();
+  engine.setMainScene(mainScene);
 
-  aMainScene.setEnvironmentMap(
+  mainScene.setEnvironmentMap(
     engine.resource<THREE.Texture>("environmentMap"),
-    0.25,
-    new THREE.Euler(0.75, 1.68, 0.59),
+    ENV_MAP_INTENSITY,
+    ENV_MAP_ROTATION,
   );
-  addEnvironmentMapDebugControls(gui, aMainScene);
+  addEnvironmentMapDebugControls(gui, mainScene);
 
-  const aMainCamera = mainCamera();
-  aMainScene.add(aMainCamera);
-  engine.setMainCamera(aMainCamera);
+  const mainCamera = makeMainCamera();
+  mainScene.add(mainCamera);
+  engine.setMainCamera(mainCamera);
 
-  aMainScene.add(axesWidget(8));
+  mainScene.add(axesWidget(8));
 
-  aMainScene.add(makeAmbientLight());
-  aMainScene.add(keyLight());
+  mainScene.add(makeAmbientLight());
+  mainScene.add(keyLight());
 
   const woPhone = phone();
-  aMainScene.add(woPhone);
+  mainScene.add(woPhone);
 
   engine.run();
 
@@ -95,7 +98,7 @@ export async function app(canvas: HTMLCanvasElement) {
     const halfLabel0Width = label0.offsetWidth / 2;
 
     let piece1AverageWorldPos = piece1AnimatingAverageWorldPos.clone();
-    piece1AverageWorldPos.project(aMainCamera.threeObject as THREE.Camera);
+    piece1AverageWorldPos.project(mainCamera.threeObject as THREE.Camera);
 
     const piece1ScreenPosX = piece1AverageWorldPos.x * halfWindowWidth + halfWindowWidth;
     const piece1ScreenPosY = -piece1AverageWorldPos.y * halfWindowHeight + halfWindowHeight;

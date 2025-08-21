@@ -69,8 +69,6 @@ type Resource = {
   object: object;
 };
 
-type Vec3 = [number, number, number];
-
 type OnWindowResizeListener = (width: number, height: number) => void;
 
 type WorldObjectOptions<T = {}> = {
