@@ -1,6 +1,6 @@
 import * as THREE from "three";
 
-export function axesWidget(length: number = 2): WorldObject {
+export function makeAxesWidget(length: number = 2): WorldObject {
   const axesHelper = new THREE.AxesHelper(length);
 
   return {

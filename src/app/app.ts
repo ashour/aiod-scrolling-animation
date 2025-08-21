@@ -1,14 +1,13 @@
 import assets from "@/config/assets";
 import engineOptions from "@/config/engine";
 import engine from "@/engine";
-import { axesWidget } from "@/engine/debug/axes-widget";
 import { browserWindow } from "@/engine/system/browser_window";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import * as THREE from "three";
 import { makeAmbientLight } from "./ambient-light";
 import { addEnvironmentMapDebugControls } from "./debug-environment-map";
-import { keyLight } from "./key-light";
+import { makeDirectionalLight } from "./directional-light";
 import { makeMainCamera } from "./main-camera";
 import { makeMainScene } from "./main-scene";
 import { phone } from "./phone";
@@ -37,10 +36,8 @@ export async function app(canvas: HTMLCanvasElement) {
   mainScene.add(mainCamera);
   engine.setMainCamera(mainCamera);
 
-  mainScene.add(axesWidget(8));
-
   mainScene.add(makeAmbientLight());
-  mainScene.add(keyLight());
+  mainScene.add(makeDirectionalLight());
 
   const woPhone = phone();
   mainScene.add(woPhone);

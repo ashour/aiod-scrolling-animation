@@ -1,18 +1,19 @@
+import worldObject from "@/engine/world/world-object";
 import type GUI from "lil-gui";
 import * as THREE from "three";
-import worldObject from "../engine/world/world-object";
+
+const COLOR = "#fde597";
+const INTENSITY = 0.5;
 
 export function makeAmbientLight(): WorldObject {
-  const light = new THREE.AmbientLight("#fde597", 0.5);
-  light.position.set(0, 0, 0);
+  const light = new THREE.AmbientLight(COLOR, INTENSITY);
 
   return worldObject(light, {
     gui(gui: GUI) {
       const folder = gui.addFolder("Ambient Light");
-      folder.add(light, "intensity").min(-500).max(500).step(0.001).name("lightIntensity");
-      folder.add(light.position, "x").min(-50).max(50).step(0.001).name("lightX");
-      folder.add(light.position, "y").min(-50).max(50).step(0.001).name("lightY");
-      folder.add(light.position, "z").min(-50).max(50).step(0.001).name("lightZ");
+      folder.addColor(light, "color");
+      folder.add(light, "intensity").min(-20).max(20).step(0.001);
+      folder.close();
       return folder;
     },
   });
