@@ -6,7 +6,6 @@ import { browserWindow } from "@/engine/system/browser_window";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import * as THREE from "three";
-import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader";
 import { makeAmbientLight } from "./ambient-light";
 import { keyLight } from "./key-light";
 import { mainCamera } from "./main-camera";
@@ -30,61 +29,58 @@ export async function app(canvas: HTMLCanvasElement) {
   const aMainScene = mainScene();
   engine.setMainScene(aMainScene);
 
+  // TODO refactor this into engine
   const pmrem = new THREE.PMREMGenerator(engine.renderer.threeRenderer);
   pmrem.compileEquirectangularShader();
 
   // Store environment map and scene reference for debug controls
-  let envMap: THREE.Texture;
+  const hdrEquirect = engine.resource<THREE.Texture>("environmentMap");
+  let envMap: THREE.Texture = pmrem.fromEquirectangular(hdrEquirect).texture;
+  hdrEquirect.dispose();
+  pmrem.dispose();
+
   let mainThreeScene: THREE.Scene;
 
-  new RGBELoader()
-    .setPath("/environment-maps/")
-    .load("bloem_field_sunrise_2k.hdr", (hdrEquirect) => {
-      envMap = pmrem.fromEquirectangular(hdrEquirect).texture;
-      hdrEquirect.dispose();
-      pmrem.dispose();
+  mainThreeScene = aMainScene.threeObject as THREE.Scene;
+  mainThreeScene.environment = envMap;
+  mainThreeScene.environmentIntensity = debug.envIntensity;
+  mainThreeScene.environmentRotation = new THREE.Euler(0.75, 1.68, 0.59);
 
-      mainThreeScene = aMainScene.threeObject as THREE.Scene;
-      mainThreeScene.environment = envMap;
-      mainThreeScene.environmentIntensity = debug.envIntensity;
-      mainThreeScene.environmentRotation = new THREE.Euler(0.75, 1.68, 0.59);
+  // Add debug GUI controls for environment map
+  const envFolder = gui.addFolder("Environment Map");
 
-      // Add debug GUI controls for environment map
-      const envFolder = gui.addFolder("Environment Map");
-
-      envFolder
-        .add(debug, "envIntensity", 0, 2, 0.01)
-        .name("Intensity")
-        .onChange((value: number) => {
-          mainThreeScene.environmentIntensity = value;
-        });
-
-      envFolder
-        .add(debug, "envRotX", -Math.PI, Math.PI, 0.01)
-        .name("Rotation X")
-        .onChange(() => {
-          mainThreeScene.environmentRotation.set(debug.envRotX, debug.envRotY, debug.envRotZ);
-          mainThreeScene.backgroundRotation.set(debug.envRotX, debug.envRotY, debug.envRotZ);
-        });
-
-      envFolder
-        .add(debug, "envRotY", -Math.PI, Math.PI, 0.01)
-        .name("Rotation Y")
-        .onChange(() => {
-          mainThreeScene.environmentRotation.set(debug.envRotX, debug.envRotY, debug.envRotZ);
-          mainThreeScene.backgroundRotation.set(debug.envRotX, debug.envRotY, debug.envRotZ);
-        });
-
-      envFolder
-        .add(debug, "envRotZ", -Math.PI, Math.PI, 0.01)
-        .name("Rotation Z")
-        .onChange(() => {
-          mainThreeScene.environmentRotation.set(debug.envRotX, debug.envRotY, debug.envRotZ);
-          mainThreeScene.backgroundRotation.set(debug.envRotX, debug.envRotY, debug.envRotZ);
-        });
-
-      envFolder.open();
+  envFolder
+    .add(debug, "envIntensity", 0, 2, 0.01)
+    .name("Intensity")
+    .onChange((value: number) => {
+      mainThreeScene.environmentIntensity = value;
     });
+
+  envFolder
+    .add(debug, "envRotX", -Math.PI, Math.PI, 0.01)
+    .name("Rotation X")
+    .onChange(() => {
+      mainThreeScene.environmentRotation.set(debug.envRotX, debug.envRotY, debug.envRotZ);
+      mainThreeScene.backgroundRotation.set(debug.envRotX, debug.envRotY, debug.envRotZ);
+    });
+
+  envFolder
+    .add(debug, "envRotY", -Math.PI, Math.PI, 0.01)
+    .name("Rotation Y")
+    .onChange(() => {
+      mainThreeScene.environmentRotation.set(debug.envRotX, debug.envRotY, debug.envRotZ);
+      mainThreeScene.backgroundRotation.set(debug.envRotX, debug.envRotY, debug.envRotZ);
+    });
+
+  envFolder
+    .add(debug, "envRotZ", -Math.PI, Math.PI, 0.01)
+    .name("Rotation Z")
+    .onChange(() => {
+      mainThreeScene.environmentRotation.set(debug.envRotX, debug.envRotY, debug.envRotZ);
+      mainThreeScene.backgroundRotation.set(debug.envRotX, debug.envRotY, debug.envRotZ);
+    });
+
+  envFolder.open();
 
   const aMainCamera = mainCamera();
   aMainScene.add(aMainCamera);

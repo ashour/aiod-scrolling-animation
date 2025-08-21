@@ -1,3 +1,18 @@
+declare module "*.vert?raw" {
+  const content: string;
+  export default content;
+}
+
+declare module "*.frag?raw" {
+  const content: string;
+  export default content;
+}
+
+declare module "*.glsl?raw" {
+  const content: string;
+  export default content;
+}
+
 type RendererOptions = {
   antialias?: boolean;
   alpha?: boolean;
@@ -11,11 +26,18 @@ type RendererOptions = {
 type EngineOptions = RendererOptions & { maxPixelRatio?: number };
 
 type AssetDataBase = {
-  type: "texture" | "cubeTexture" | "gltf";
+  type: "cubeTexture" | "gltf" | "hdr" | "texture";
 };
 
 type TexutureAssetColorSpace = "noColorSpace" | "SRGB";
 type TextureAssetWrap = "clamp" | "repeat";
+
+type CubeTextureAssetData = AssetDataBase & {
+  type: "cubeTexture";
+  path?: never;
+  paths: string[];
+  colorSpace?: TexutureAssetColorSpace;
+};
 
 type TextureAssetData = AssetDataBase & {
   type: "texture";
@@ -26,20 +48,19 @@ type TextureAssetData = AssetDataBase & {
   wrap?: [TextureAssetWrap, TextureAssetWrap];
 };
 
-type CubeTextureAssetData = AssetDataBase & {
-  type: "cubeTexture";
-  path?: never;
-  paths: string[];
-  colorSpace?: TexutureAssetColorSpace;
-};
-
 type GLTFAssetData = AssetDataBase & {
   type: "gltf";
   path: string;
   paths?: never;
 };
 
-type AssetData = CubeTextureAssetData | GLTFAssetData | TextureAssetData;
+type HDRAssetData = AssetDataBase & {
+  type: "hdr";
+  path: string;
+  paths?: never;
+};
+
+type AssetData = CubeTextureAssetData | GLTFAssetData | HDRAssetData | TextureAssetData;
 
 type AssetConfig = Record<string, AssetData>;
 
@@ -73,18 +94,3 @@ type WorldCamera = WorldObject<{}> & {
   setAspect(newAspect: number): void;
   gui?(gui: import("lil-gui").GUI): import("lil-gui").GUI;
 };
-
-declare module "*.vert?raw" {
-  const content: string;
-  export default content;
-}
-
-declare module "*.frag?raw" {
-  const content: string;
-  export default content;
-}
-
-declare module "*.glsl?raw" {
-  const content: string;
-  export default content;
-}

@@ -1,5 +1,6 @@
 import loadCubeTexture from "./cube_texture_loader";
 import loadGLTF from "./gltf_loader";
+import { loadRGBE } from "./rgbe-loader";
 import loadTexture from "./texture_loader";
 
 export default {
@@ -11,6 +12,8 @@ export default {
             return loadCubeTexture(name, asset);
           case "gltf":
             return loadGLTF(name, asset);
+          case "hdr":
+            return loadRGBE(name, asset);
           case "texture":
             return loadTexture(name, asset);
           default:

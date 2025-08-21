@@ -7,6 +7,10 @@ const assets: AssetConfig = {
     type: "gltf",
     path: "/models/phone/gltf-bin/phone.glb",
   },
+  environmentMap: {
+    type: "hdr",
+    path: "/environment-maps/bloem_field_sunrise_2k.hdr",
+  },
 };
 
 export default assets;
