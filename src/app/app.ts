@@ -10,6 +10,7 @@ import { addEnvironmentMapDebugControls } from "./debug-environment-map";
 import { makeDirectionalLight } from "./directional-light";
 import { makeMainCamera } from "./main-camera";
 import { makeMainScene } from "./main-scene";
+import { makeFloatingBehavior } from "./phone/floating-behavior";
 import { makePhone } from "./phone/phone";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -25,6 +26,8 @@ export async function app(canvas: HTMLCanvasElement) {
   const mainScene = makeMainScene();
   engine.setMainScene(mainScene);
 
+  //TODO move this into the main scene module, with a dependency injection to make it clear that
+  // an env map is being used
   mainScene.setEnvironmentMap(
     engine.resource<THREE.Texture>("environmentMap"),
     ENV_MAP_INTENSITY,
@@ -44,47 +47,8 @@ export async function app(canvas: HTMLCanvasElement) {
 
   engine.run();
 
-  let floatingTween: gsap.core.Tween | null = null;
-  let rotationTween: gsap.core.Tween | null = null;
-
-  function startFloating() {
-    if (floatingTween) {
-      floatingTween.kill();
-    }
-    if (rotationTween) {
-      rotationTween.kill();
-    }
-
-    floatingTween = gsap.to(phone.threeObject.position, {
-      y: "+=0.5",
-      duration: 2,
-      ease: "sine.inOut",
-      yoyo: true,
-      repeat: -1,
-    });
-
-    rotationTween = gsap.to(phone.threeObject.rotation, {
-      x: "+=0.0625",
-      z: "+=0.03125",
-      duration: 3,
-      ease: "sine.inOut",
-      yoyo: true,
-      repeat: -1,
-    });
-  }
-
-  function stopFloating() {
-    if (floatingTween) {
-      floatingTween.kill();
-      floatingTween = null;
-    }
-    if (rotationTween) {
-      rotationTween.kill();
-      rotationTween = null;
-    }
-  }
-
-  startFloating();
+  const floating = makeFloatingBehavior(phone.threeObject.position);
+  floating.start();
 
   let piece1AnimatingAverageWorldPos = new THREE.Vector3(-7.877, -10.702, 1.957);
   const label0 = document.getElementById("label-1-0")!;
@@ -118,16 +82,16 @@ export async function app(canvas: HTMLCanvasElement) {
       },
       markers: true,
       onEnter: (_self) => {
-        stopFloating();
+        floating.stop();
       },
       onEnterBack: (_self) => {
-        stopFloating();
+        floating.stop();
       },
       onLeave: (_self) => {
-        startFloating();
+        floating.start();
       },
       onLeaveBack: (_self) => {
-        startFloating();
+        floating.start();
       },
     },
   });
@@ -164,16 +128,16 @@ export async function app(canvas: HTMLCanvasElement) {
       },
       markers: true,
       onEnter: (_self) => {
-        stopFloating();
+        floating.stop();
       },
       onEnterBack: (_self) => {
-        stopFloating();
+        floating.stop();
       },
       onLeave: (_self) => {
-        startFloating();
+        floating.start();
       },
       onLeaveBack: (_self) => {
-        startFloating();
+        floating.start();
       },
     },
   });
