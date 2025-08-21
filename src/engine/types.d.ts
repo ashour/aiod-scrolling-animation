@@ -93,8 +93,8 @@ type WorldScene<T = {}> = WorldObject<T> & {
     intensity?: number,
     rotation?: import("three").Euler,
   ): void;
-  setEnvironmentMapIntensity(intensity: number): void;
-  setEnvironmentMapRotation(rotation: import("three").Euler): void;
+  environmentMapIntensity: number;
+  environmentMapRotation: import("three").Euler;
 };
 
 type WorldCamera = WorldObject<{}> & {

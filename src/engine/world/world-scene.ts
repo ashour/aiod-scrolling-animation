@@ -46,12 +46,20 @@ export default function worldScene(options: WorldSceneOptions = {}): WorldScene 
       threeScene.environmentRotation = rotation;
     },
 
-    setEnvironmentMapIntensity(intensity: number): void {
-      threeScene.environmentIntensity = intensity;
+    get environmentMapIntensity(): number {
+      return threeScene.environmentIntensity;
     },
 
-    setEnvironmentMapRotation(rotation: THREE.Euler): void {
-      threeScene.environmentRotation.set(rotation.x, rotation.y, rotation.z);
+    set environmentMapIntensity(value: number) {
+      threeScene.environmentIntensity = value;
+    },
+
+    get environmentMapRotation(): THREE.Euler {
+      return threeScene.environmentRotation;
+    },
+
+    set environmentMapRotation(value: THREE.Euler) {
+      threeScene.environmentRotation.set(value.x, value.y, value.z);
     },
 
     update(deltaTime: number) {

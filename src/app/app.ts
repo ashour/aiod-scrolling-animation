@@ -7,19 +7,13 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import * as THREE from "three";
 import { makeAmbientLight } from "./ambient-light";
+import { addEnvironmentMapDebugControls } from "./debug-environment-map";
 import { keyLight } from "./key-light";
 import { mainCamera } from "./main-camera";
 import { mainScene } from "./main-scene";
 import { phone } from "./phone";
 
 gsap.registerPlugin(ScrollTrigger);
-
-const debug = {
-  envIntensity: 0.25,
-  envRotX: 0.0168146928204145,
-  envRotY: 2.11681469282041,
-  envRotZ: 0.916814692820414,
-};
 
 export async function app(canvas: HTMLCanvasElement) {
   await engine.init(canvas, assets, engineOptions);
@@ -29,52 +23,12 @@ export async function app(canvas: HTMLCanvasElement) {
   const aMainScene = mainScene();
   engine.setMainScene(aMainScene);
 
-  // Store environment map and scene reference for debug controls
-  const envMap = engine.resource<THREE.Texture>("environmentMap");
-  aMainScene.setEnvironmentMap(envMap, debug.envIntensity, new THREE.Euler(0.75, 1.68, 0.59));
-
-  let mainThreeScene: THREE.Scene;
-
-  mainThreeScene = aMainScene.threeObject as THREE.Scene;
-
-  // Add debug GUI controls for environment map
-  const envFolder = gui.addFolder("Environment Map");
-
-  envFolder
-    .add(debug, "envIntensity", 0, 2, 0.01)
-    .name("Intensity")
-    .onChange((value: number) => {
-      aMainScene.setEnvironmentMapIntensity(value);
-    });
-
-  envFolder
-    .add(debug, "envRotX", -Math.PI, Math.PI, 0.01)
-    .name("Rotation X")
-    .onChange(() => {
-      aMainScene.setEnvironmentMapRotation(
-        new THREE.Euler(debug.envRotX, debug.envRotY, debug.envRotZ),
-      );
-    });
-
-  envFolder
-    .add(debug, "envRotY", -Math.PI, Math.PI, 0.01)
-    .name("Rotation Y")
-    .onChange(() => {
-      aMainScene.setEnvironmentMapRotation(
-        new THREE.Euler(debug.envRotX, debug.envRotY, debug.envRotZ),
-      );
-    });
-
-  envFolder
-    .add(debug, "envRotZ", -Math.PI, Math.PI, 0.01)
-    .name("Rotation Z")
-    .onChange(() => {
-      aMainScene.setEnvironmentMapRotation(
-        new THREE.Euler(debug.envRotX, debug.envRotY, debug.envRotZ),
-      );
-    });
-
-  envFolder.open();
+  aMainScene.setEnvironmentMap(
+    engine.resource<THREE.Texture>("environmentMap"),
+    0.25,
+    new THREE.Euler(0.75, 1.68, 0.59),
+  );
+  addEnvironmentMapDebugControls(gui, aMainScene);
 
   const aMainCamera = mainCamera();
   aMainScene.add(aMainCamera);
