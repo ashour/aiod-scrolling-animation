@@ -10,7 +10,6 @@ import { addEnvironmentMapDebugControls } from "./debug-environment-map";
 import { makeDirectionalLight } from "./directional-light";
 import { makeMainCamera } from "./main-camera";
 import { makeMainScene } from "./main-scene";
-import { makeFloatingBehavior } from "./phone/floating-behavior";
 import { makePhone } from "./phone/phone";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -47,8 +46,7 @@ export async function app(canvas: HTMLCanvasElement) {
 
   engine.run();
 
-  const floating = makeFloatingBehavior(phone.threeObject.position);
-  floating.start();
+  phone.startFloating();
 
   let piece1AnimatingAverageWorldPos = new THREE.Vector3(-7.877, -10.702, 1.957);
   const label0 = document.getElementById("label-1-0")!;
@@ -82,16 +80,16 @@ export async function app(canvas: HTMLCanvasElement) {
       },
       markers: true,
       onEnter: (_self) => {
-        floating.stop();
+        phone.stopFloating();
       },
       onEnterBack: (_self) => {
-        floating.stop();
+        phone.stopFloating();
       },
       onLeave: (_self) => {
-        floating.start();
+        phone.startFloating();
       },
       onLeaveBack: (_self) => {
-        floating.start();
+        phone.startFloating();
       },
     },
   });
@@ -128,16 +126,16 @@ export async function app(canvas: HTMLCanvasElement) {
       },
       markers: true,
       onEnter: (_self) => {
-        floating.stop();
+        phone.stopFloating();
       },
       onEnterBack: (_self) => {
-        floating.stop();
+        phone.stopFloating();
       },
       onLeave: (_self) => {
-        floating.start();
+        phone.startFloating();
       },
       onLeaveBack: (_self) => {
-        floating.start();
+        phone.startFloating();
       },
     },
   });

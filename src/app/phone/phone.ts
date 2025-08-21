@@ -2,11 +2,8 @@ import engine from "@/engine";
 import worldObject from "@/engine/world/world-object";
 import * as THREE from "three";
 import type { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
+import { makeFloatingBehavior } from "./floating-behavior";
 import { makeBackgroundHalo } from "./halo/background-halo";
-
-type PhoneProps = {
-  setAnimationTime: (clipIndex: number, normalizedTime: number) => void;
-};
 
 const POSITION = new THREE.Vector3(-0.1, 7, 4.3);
 const ROTATION = new THREE.Euler(-0.1, -0.3, -0.1);
@@ -14,6 +11,12 @@ const ROTATION = new THREE.Euler(-0.1, -0.3, -0.1);
 const FRAME_RANGES = {
   0: { start: 0, end: 12 },
   1: { start: 12, end: 15 },
+};
+
+type PhoneProps = {
+  setAnimationTime: (clipIndex: number, normalizedTime: number) => void;
+  startFloating: () => void;
+  stopFloating: () => void;
 };
 
 export function makePhone(): WorldObject<PhoneProps> {
@@ -28,6 +31,7 @@ export function makePhone(): WorldObject<PhoneProps> {
   halo.threeObject.position.set(0, 0, -1);
 
   const mixer = new THREE.AnimationMixer(phone);
+  const floating = makeFloatingBehavior(phone);
 
   return worldObject(phone, {
     gui(gui) {
@@ -64,6 +68,14 @@ export function makePhone(): WorldObject<PhoneProps> {
       action.play();
       action.time = animationTime;
       mixer.update(0);
+    },
+
+    startFloating() {
+      floating.start();
+    },
+
+    stopFloating() {
+      floating.stop();
     },
   });
 }
