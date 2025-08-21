@@ -10,7 +10,7 @@ import { addEnvironmentMapDebugControls } from "./debug-environment-map";
 import { makeDirectionalLight } from "./directional-light";
 import { makeMainCamera } from "./main-camera";
 import { makeMainScene } from "./main-scene";
-import { phone } from "./phone";
+import { makePhone } from "./phone/phone";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -39,8 +39,8 @@ export async function app(canvas: HTMLCanvasElement) {
   mainScene.add(makeAmbientLight());
   mainScene.add(makeDirectionalLight());
 
-  const woPhone = phone();
-  mainScene.add(woPhone);
+  const phone = makePhone();
+  mainScene.add(phone);
 
   engine.run();
 
@@ -55,7 +55,7 @@ export async function app(canvas: HTMLCanvasElement) {
       rotationTween.kill();
     }
 
-    floatingTween = gsap.to(woPhone.threeObject.position, {
+    floatingTween = gsap.to(phone.threeObject.position, {
       y: "+=0.5",
       duration: 2,
       ease: "sine.inOut",
@@ -63,7 +63,7 @@ export async function app(canvas: HTMLCanvasElement) {
       repeat: -1,
     });
 
-    rotationTween = gsap.to(woPhone.threeObject.rotation, {
+    rotationTween = gsap.to(phone.threeObject.rotation, {
       x: "+=0.0625",
       z: "+=0.03125",
       duration: 3,
@@ -143,7 +143,7 @@ export async function app(canvas: HTMLCanvasElement) {
       duration: 8,
       ease: "none",
       onUpdate: () => {
-        woPhone.setAnimationTime(0, section1PhoneAnimationProgress.value);
+        phone.setAnimationTime(0, section1PhoneAnimationProgress.value);
       },
     })
     .addLabel("labels")
@@ -189,7 +189,7 @@ export async function app(canvas: HTMLCanvasElement) {
       duration: 8,
       ease: "none",
       onUpdate: () => {
-        woPhone.setAnimationTime(1, section2PhoneAnimationProgress.value);
+        phone.setAnimationTime(1, section2PhoneAnimationProgress.value);
       },
     })
     .addLabel("section2HeaderIn")

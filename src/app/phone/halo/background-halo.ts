@@ -1,9 +1,9 @@
 import worldObject from "@/engine/world/world-object";
 import * as THREE from "three";
-import fragmentShader from "./shaders/background-halo.frag?raw";
-import vertexShader from "./shaders/background-halo.vert?raw";
+import fragmentShader from "./background-halo.frag?raw";
+import vertexShader from "./background-halo.vert?raw";
 
-export function backgroundHalo(): WorldObject {
+export function makeBackgroundHalo(): WorldObject {
   const geometry = new THREE.PlaneGeometry(20, 20, 32, 32);
   const material = new THREE.ShaderMaterial({
     vertexShader,
