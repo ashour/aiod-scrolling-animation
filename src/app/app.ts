@@ -3,7 +3,6 @@ import engineOptions from "@/config/engine";
 import engine from "@/engine";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import * as THREE from "three";
 import { makeAmbientLight } from "./ambient-light";
 import { makeDirectionalLight } from "./directional-light";
 import { makeLabelPositionerFor } from "./labels/position-label";
@@ -32,20 +31,6 @@ export async function app(canvas: HTMLCanvasElement) {
 
   engine.run();
   phone.startFloating();
-
-  // TODO move to engine
-  function makeDebugMarker(position: THREE.Vector3, size = 0.24, color = 0xff0000) {
-    const geo = new THREE.SphereGeometry(size, 8, 8);
-    const mat = new THREE.MeshBasicMaterial({ color, depthTest: false, depthWrite: false });
-    const marker = new THREE.Mesh(geo, mat);
-    marker.position.copy(position);
-    marker.renderOrder = 999;
-    marker.frustumCulled = false;
-    return marker;
-  }
-
-  mainScene.threeObject.add(makeDebugMarker(new THREE.Vector3(-7.877, -4.702, 1.957)));
-  mainScene.threeObject.add(makeDebugMarker(new THREE.Vector3(7.877, -4.702, 1.957)));
 
   document.querySelectorAll(".section-scroll-controllers > .section")!.forEach((section) => {
     if (section.hasAttribute("data-no-animation")) {
