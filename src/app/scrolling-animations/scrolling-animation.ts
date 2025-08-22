@@ -67,5 +67,9 @@ export function makeSectionAnimation({
 
   timeline
     .addLabel("nextHeaderUp")
-    .to(nextSectionHeaderId, { y: 0, duration: 2, ease: "power1.out" }, "<");
+    .to(
+      nextSectionHeaderId,
+      { y: 0, duration: 2, ease: "power1.out" },
+      hasLabels ? "<" : undefined,
+    );
 }
