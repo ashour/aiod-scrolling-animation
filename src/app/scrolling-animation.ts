@@ -38,7 +38,8 @@ export function makeSectionAnimation({
   });
 
   const nextSectionIndex = parseInt(id.replace("section-", ""));
-  const currentSectionHeaderId = `#section-${nextSectionIndex - 1}-header`;
+  const currentSectionIndex = nextSectionIndex - 1;
+  const currentSectionHeaderId = `#section-${currentSectionIndex}-header`;
 
   const phoneAnimationProgress = { value: 0 };
 
@@ -51,7 +52,7 @@ export function makeSectionAnimation({
       duration: 6,
       ease: "none",
       onUpdate: () => {
-        phone.setAnimationTime(0, phoneAnimationProgress.value);
+        phone.setAnimationTime(currentSectionIndex, phoneAnimationProgress.value);
       },
     });
 
