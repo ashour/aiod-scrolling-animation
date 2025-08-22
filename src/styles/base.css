@@ -1,0 +1,32 @@
+body {
+  font-family: var(--font-mono);
+  font-weight: 300;
+  font-style: normal;
+  color: var(--color-blue);
+  background: var(--color-grey-200);
+  background: linear-gradient(to bottom, var(--color-grey-100) 0vh, var(--color-grey-200) 100vh);
+  background-attachment: fixed;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-serif);
+  font-optical-sizing: auto;
+  font-weight: 900;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+}
+
+main {
+  width: 100%;
+}
+@media screen and (min-width: 800px) {
+  main {
+    width: 80%;
+    margin: 0 auto;
+  }
+}

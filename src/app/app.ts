@@ -1,6 +1,7 @@
 import assets from "@/config/assets";
 import engineOptions from "@/config/engine";
 import engine from "@/engine";
+import "@/styles/styles";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { makeAmbientLight } from "./ambient-light";

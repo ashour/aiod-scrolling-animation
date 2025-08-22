@@ -1,0 +1,29 @@
+.section {
+  height: var(--viewport-height-extended);
+}
+
+.section-header {
+  position: absolute;
+  width: 90%;
+  left: 2rem;
+  transform: translateY(100vh);
+}
+.section-header__header {
+  font-size: 3.5rem;
+  line-height: 1;
+}
+.section-header__tagline {
+  font-size: 2.25rem;
+  font-weight: 100;
+}
+
+#section-0-header {
+  top: 36rem;
+  transform: none;
+}
+#section-1-header {
+  top: 48rem;
+}
+#section-2-header {
+  top: 48rem;
+}
