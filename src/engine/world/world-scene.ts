@@ -8,7 +8,7 @@ type WorldSceneOptions = {
   dispose?: () => void;
 };
 
-export default function worldScene(options: WorldSceneOptions = {}): WorldScene {
+export function makeWorldScene(options: WorldSceneOptions = {}): WorldScene {
   const threeScene = new THREE.Scene();
   if (options.environmentMap) {
     options.environmentMap.dispose();
