@@ -3,7 +3,7 @@ import * as THREE from "three";
 import stats from "./debug/stats";
 import loader from "./loaders/loader";
 import renderer from "./rendering/renderer";
-import { browserWindow } from "./system/browser_window";
+import { browserWindow } from "./system/browser-window";
 import time from "./system/time";
 
 const DEBUG_URL_HASH = "#debug";

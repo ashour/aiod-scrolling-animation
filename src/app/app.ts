@@ -1,7 +1,6 @@
 import assets from "@/config/assets";
 import engineOptions from "@/config/engine";
 import engine from "@/engine";
-import { browserWindow } from "@/engine/system/browser_window";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import * as THREE from "three";
@@ -10,6 +9,7 @@ import { makeDirectionalLight } from "./directional-light";
 import { makeMainCamera } from "./main-camera";
 import { makeMainScene } from "./main-scene";
 import { makePhone } from "./phone/phone";
+import { positionLabel } from "./position-label";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -33,24 +33,17 @@ export async function app(canvas: HTMLCanvasElement) {
 
   phone.startFloating();
 
-  let piece1AnimatingAverageWorldPos = new THREE.Vector3(-7.877, -10.702, 1.957);
-  const label0 = document.getElementById("label-1-0")!;
-  function positionLabel0() {
-    const halfWindowWidth = browserWindow.width / 2;
-    const halfWindowHeight = browserWindow.height / 2;
-
-    const halfLabel0Width = label0.offsetWidth / 2;
-
-    let piece1AverageWorldPos = piece1AnimatingAverageWorldPos.clone();
-    piece1AverageWorldPos.project(mainCamera.threeObject as THREE.Camera);
-
-    const piece1ScreenPosX = piece1AverageWorldPos.x * halfWindowWidth + halfWindowWidth;
-    const piece1ScreenPosY = -piece1AverageWorldPos.y * halfWindowHeight + halfWindowHeight;
-    label0.style.setProperty("--label0-translateX", `${piece1ScreenPosX - halfLabel0Width}px`);
-    label0.style.setProperty("--label0-translateY", `${piece1ScreenPosY - 200}px`);
-  }
-  positionLabel0();
-  engine.onWindowResize(positionLabel0);
+  const label_1_0 = document.getElementById("label-1-0")!;
+  const positionLabel_1_0 = () => {
+    positionLabel({
+      label: label_1_0,
+      cssProperties: ["--label0-translateX", "--label0-translateY"],
+      worldPosition: new THREE.Vector3(-7.877, -4.702, 1.957),
+      camera: mainCamera.threeObject as THREE.Camera,
+    });
+  };
+  positionLabel_1_0();
+  engine.onWindowResize(positionLabel_1_0);
 
   let section1Timeline = gsap.timeline({
     scrollTrigger: {
@@ -94,7 +87,7 @@ export async function app(canvas: HTMLCanvasElement) {
       },
     })
     .addLabel("labels")
-    .to(label0, { "--label0-scale": 1, duration: 2, ease: "power1.out" })
+    .to(label_1_0, { "--label0-scale": 1, duration: 2, ease: "power1.out" })
     .addLabel("nextHeaderUp")
     .to("#section-1-header", { y: 0, duration: 2, ease: "power1.out" }, "<");
 
