@@ -57,8 +57,8 @@ export async function app(canvas: HTMLCanvasElement) {
       id: "section-1",
       trigger: "#section-1",
       start: "+=200 99%",
-      end: "top 1%",
-      scrub: 1,
+      end: "top 20%",
+      scrub: 0.13,
       snap: {
         snapTo: 1,
         ease: "none",
@@ -83,28 +83,28 @@ export async function app(canvas: HTMLCanvasElement) {
 
   section1Timeline
     .addLabel("currentHeaderDown")
-    .to("#section-0-header", { y: "100vh", duration: 0.5, ease: "power1.out" })
+    .to("#section-0-header", { y: "100vh", duration: 2, ease: "power1.out" })
     .addLabel("phone")
     .to(section1PhoneAnimationProgress, {
       value: 1,
-      duration: 8,
+      duration: 6,
       ease: "none",
       onUpdate: () => {
         phone.setAnimationTime(0, section1PhoneAnimationProgress.value);
       },
     })
     .addLabel("labels")
-    .to(label0, { "--label0-scale": 1, duration: 0.5, ease: "power1.out" })
+    .to(label0, { "--label0-scale": 1, duration: 2, ease: "power1.out" })
     .addLabel("nextHeaderUp")
-    .to("#section-1-header", { y: 0, duration: 0.5, ease: "power1.out" }, "<");
+    .to("#section-1-header", { y: 0, duration: 2, ease: "power1.out" }, "<");
 
   let section2Timeline = gsap.timeline({
     scrollTrigger: {
       id: "section-2",
       trigger: "#section-2",
-      start: "+=200 99%",
-      end: "top 1%",
-      scrub: 1,
+      start: "+=200 80%",
+      end: "top 20%",
+      scrub: 0.13,
       snap: {
         snapTo: 1,
         ease: "none",
@@ -129,16 +129,16 @@ export async function app(canvas: HTMLCanvasElement) {
 
   section2Timeline
     .addLabel("section1HeaderOut")
-    .to("#section-1-header", { y: "100vh", duration: 0.5, ease: "power1.out" })
+    .to("#section-1-header", { y: "100vh", duration: 2, ease: "power1.out" })
     .addLabel("phone")
     .to(section2PhoneAnimationProgress, {
       value: 1,
-      duration: 8,
+      duration: 6,
       ease: "none",
       onUpdate: () => {
         phone.setAnimationTime(1, section2PhoneAnimationProgress.value);
       },
     })
     .addLabel("section2HeaderIn")
-    .to("#section-2-header", { y: 0, duration: 0.5, ease: "power1.out" });
+    .to("#section-2-header", { y: 0, duration: 2, ease: "power1.out" });
 }
