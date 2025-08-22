@@ -6,7 +6,6 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import * as THREE from "three";
 import { makeAmbientLight } from "./ambient-light";
-import { addEnvironmentMapDebugControls } from "./debug-environment-map";
 import { makeDirectionalLight } from "./directional-light";
 import { makeMainCamera } from "./main-camera";
 import { makeMainScene } from "./main-scene";
@@ -14,25 +13,11 @@ import { makePhone } from "./phone/phone";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const ENV_MAP_INTENSITY = 0.25;
-const ENV_MAP_ROTATION = new THREE.Euler(0.75, 1.68, 0.59);
-
 export async function app(canvas: HTMLCanvasElement) {
   await engine.init(canvas, assets, engineOptions);
 
-  const gui = engine.gui;
-
   const mainScene = makeMainScene();
   engine.setMainScene(mainScene);
-
-  //TODO move this into the main scene module, with a dependency injection to make it clear that
-  // an env map is being used
-  mainScene.setEnvironmentMap(
-    engine.resource<THREE.Texture>("environmentMap"),
-    ENV_MAP_INTENSITY,
-    ENV_MAP_ROTATION,
-  );
-  addEnvironmentMapDebugControls(gui, mainScene);
 
   const mainCamera = makeMainCamera();
   mainScene.add(mainCamera);
