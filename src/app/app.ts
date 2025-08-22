@@ -4,13 +4,12 @@ import engine from "@/engine";
 import "@/styles/styles";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { makeAmbientLight } from "./ambient-light";
-import { makeDirectionalLight } from "./directional-light";
-import { makeLabelPositionerFor } from "./labels/position-label";
+import { makeAmbientLight } from "./lights/ambient-light";
+import { makeDirectionalLight } from "./lights/directional-light";
 import { makeMainCamera } from "./main-camera";
 import { makeMainScene } from "./main-scene";
 import { makePhone } from "./phone/phone";
-import { makeSectionAnimation } from "./scrolling-animation";
+import { makeSectionAnimations } from "./scrolling-animations/section-animations";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -30,32 +29,12 @@ export async function app(canvas: HTMLCanvasElement) {
   const phone = makePhone();
   mainScene.add(phone);
 
+  // Render once so that phone has position to establish
+  // positiong for animations.
   engine.render(mainScene, mainCamera);
 
-  document.querySelectorAll(".section-scroll-controllers > .section")!.forEach((section) => {
-    if (section.hasAttribute("data-no-animation")) {
-      return;
-    }
+  makeSectionAnimations(phone, mainCamera);
 
-    const hasLabels = section.hasAttribute("data-has-labels");
-    if (hasLabels) {
-      document.querySelectorAll(`#${section.id}-labels .part-label`)!.forEach((label) => {
-        const positionLabel = makeLabelPositionerFor(label as HTMLElement, mainCamera);
-        positionLabel();
-        engine.onWindowResize(positionLabel);
-      });
-    }
-
-    makeSectionAnimation({
-      id: section.id,
-      start: section.getAttribute("data-start")!,
-      end: section.getAttribute("data-end")!,
-      hasLabels,
-      phone,
-      showMarkers: false,
-    });
-
-    engine.run();
-    phone.startFloating();
-  });
+  engine.run();
+  phone.startFloating();
 }

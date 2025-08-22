@@ -1,6 +1,6 @@
 import type GUI from "lil-gui";
 import * as THREE from "three";
-import { makeWorldObject } from "../engine/world/world-object";
+import { makeWorldObject } from "../../engine/world/world-object";
 
 const COLOR = "#FFFFFF";
 const INTENSITY = 0.1;
