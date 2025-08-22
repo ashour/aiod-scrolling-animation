@@ -1,5 +1,5 @@
 import engine from "@/engine";
-import worldObject from "@/engine/world/world-object";
+import { makeWorldObject } from "@/engine/world/world-object";
 import * as THREE from "three";
 import type { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
 import { makeFloatingBehavior } from "./floating-behavior";
@@ -33,7 +33,7 @@ export function makePhone(): WorldObject<PhoneProps> {
   const mixer = new THREE.AnimationMixer(phone);
   const floating = makeFloatingBehavior(phone);
 
-  return worldObject(phone, {
+  return makeWorldObject(phone, {
     gui(gui) {
       const folder = gui.addFolder("Phone");
 

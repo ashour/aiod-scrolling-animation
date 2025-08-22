@@ -1,6 +1,6 @@
 import * as THREE from "three";
 
-const _defaultOptions: RendererOptions = {
+const defaultOptions: RendererOptions = {
   antialias: false,
   toneMapping: THREE.NoToneMapping,
   toneMappingExposure: 1,
@@ -8,11 +8,8 @@ const _defaultOptions: RendererOptions = {
   shadowMapType: THREE.PCFShadowMap,
 };
 
-export default function renderer(
-  canvas: HTMLCanvasElement,
-  options: RendererOptions,
-) {
-  const opt = { ..._defaultOptions, ...options } as Required<RendererOptions>;
+export default function makeRenderer(canvas: HTMLCanvasElement, options: RendererOptions) {
+  const opt = { ...defaultOptions, ...options } as Required<RendererOptions>;
 
   const threeRenderer = new THREE.WebGLRenderer({
     canvas: canvas,
@@ -31,6 +28,10 @@ export default function renderer(
 
   return {
     threeRenderer,
+
+    render(scene: WorldScene, camera: WorldCamera) {
+      threeRenderer.render(scene.threeObject, camera.threeObject as THREE.Camera);
+    },
 
     clearState() {
       threeRenderer.renderLists.dispose();

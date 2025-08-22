@@ -30,8 +30,7 @@ export async function app(canvas: HTMLCanvasElement) {
   const phone = makePhone();
   mainScene.add(phone);
 
-  engine.run();
-  phone.startFloating();
+  engine.render(mainScene, mainCamera);
 
   document.querySelectorAll(".section-scroll-controllers > .section")!.forEach((section) => {
     if (section.hasAttribute("data-no-animation")) {
@@ -55,5 +54,8 @@ export async function app(canvas: HTMLCanvasElement) {
       phone,
       showMarkers: false,
     });
+
+    engine.run();
+    phone.startFloating();
   });
 }

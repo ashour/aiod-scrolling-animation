@@ -2,7 +2,7 @@ import * as THREE from "three";
 
 const textureLoader = new THREE.TextureLoader();
 
-export default function loadTexture(name: string, asset: TextureAssetData): Promise<Resource> {
+export function loadTexture(name: string, asset: TextureAssetData): Promise<Resource> {
   return new Promise((resolve, reject) => {
     textureLoader.load(
       asset.path,

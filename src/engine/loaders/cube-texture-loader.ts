@@ -2,10 +2,7 @@ import * as THREE from "three";
 
 const cubeTextureLoader = new THREE.CubeTextureLoader();
 
-export default function loadCubeTexture(
-  name: string,
-  asset: CubeTextureAssetData,
-): Promise<Resource> {
+export function loadCubeTexture(name: string, asset: CubeTextureAssetData): Promise<Resource> {
   return new Promise<Resource>((resolve, reject) => {
     cubeTextureLoader.load(
       asset.paths,

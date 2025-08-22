@@ -1,6 +1,6 @@
 import Stats from "three/examples/jsm/libs/stats.module";
 
-export default function stats(container: HTMLElement) {
+export function makeStats(container: HTMLElement) {
   const stats = new Stats();
 
   return {

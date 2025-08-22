@@ -1,46 +1,45 @@
 import GUI from "lil-gui";
-import * as THREE from "three";
-import stats from "./debug/stats";
+import { makeStats } from "./debug/stats";
 import loader from "./loaders/loader";
-import renderer from "./rendering/renderer";
+import makeRenderer from "./rendering/renderer";
 import { browserWindow } from "./system/browser-window";
 import time from "./system/time";
 
 const DEBUG_URL_HASH = "#debug";
 const DEFAULT_MAX_PIXEL_RATIO = 2;
 
-let _gui: GUI;
-let _mainScene: WorldScene | null = null;
-let _mainCamera: WorldCamera | null = null;
-let _stats: ReturnType<typeof stats>;
-let _renderer: ReturnType<typeof renderer>;
-let _resources: { [key: string]: Resource } = {};
-let _onEarlyUpdateListeners: Array<(deltaTime: number) => void> = [];
-let _onLateUpdateListeners: Array<(deltaTime: number) => void> = [];
+let gui: GUI;
+let mainScene: WorldScene | null = null;
+let mainCamera: WorldCamera | null = null;
+let stats: ReturnType<typeof makeStats>;
+let renderer: ReturnType<typeof makeRenderer>;
+let resources: { [key: string]: Resource } = {};
+let onEarlyUpdateListeners: Array<(deltaTime: number) => void> = [];
+let onLateUpdateListeners: Array<(deltaTime: number) => void> = [];
 
 export default {
   time,
   browserWindow,
 
   async init(canvas: HTMLCanvasElement, assets: AssetConfig, options: EngineOptions) {
-    _renderer = renderer(canvas, options);
-    _renderer.setSize(browserWindow.width, browserWindow.height);
+    renderer = makeRenderer(canvas, options);
+    renderer.setSize(browserWindow.width, browserWindow.height);
 
     const maxPixelRatio = options.maxPixelRatio ?? DEFAULT_MAX_PIXEL_RATIO;
-    _renderer.setPixelRatio(Math.min(browserWindow.devicePixelRatio, maxPixelRatio));
+    renderer.setPixelRatio(Math.min(browserWindow.devicePixelRatio, maxPixelRatio));
 
     this.onWindowResize((width: number, height: number) => {
-      _renderer.setSize(width, height);
-      _renderer.setPixelRatio(Math.min(browserWindow.devicePixelRatio, maxPixelRatio));
+      renderer.setSize(width, height);
+      renderer.setPixelRatio(Math.min(browserWindow.devicePixelRatio, maxPixelRatio));
 
-      if (_mainCamera) {
-        _mainCamera.setAspect(width / height);
+      if (mainCamera) {
+        mainCamera.setAspect(width / height);
       }
     });
 
     const loadedAssets = await loader.load(assets);
     for (const loadedAsset of loadedAssets) {
-      _resources[loadedAsset.name] = loadedAsset;
+      resources[loadedAsset.name] = loadedAsset;
     }
 
     this.gui.show(browserWindow.urlHash === DEBUG_URL_HASH);
@@ -54,21 +53,21 @@ export default {
   },
 
   get renderer() {
-    return _renderer;
+    return renderer;
   },
 
   get gui() {
-    if (!_gui) {
-      _gui = new GUI();
+    if (!gui) {
+      gui = new GUI();
     }
-    return _gui;
+    return gui;
   },
 
   get stats() {
-    if (!_stats) {
-      _stats = stats(browserWindow.statsContainer);
+    if (!stats) {
+      stats = makeStats(browserWindow.statsContainer);
     }
-    return _stats;
+    return stats;
   },
 
   onWindowResize(callback: OnWindowResizeListener) {
@@ -76,7 +75,7 @@ export default {
   },
 
   resource<T>(name: string): T {
-    const resource = _resources[name];
+    const resource = resources[name];
     if (resource === undefined) {
       throw new Error(`Could not retrieve resource (${name}).`);
     }
@@ -84,21 +83,20 @@ export default {
   },
 
   clearResources() {
-    Object.values(_resources).forEach((resource: { object: { dispose?: () => void } }) => {
+    Object.values(resources).forEach((resource: { object: { dispose?: () => void } }) => {
       if (typeof resource.object.dispose === "function") {
         resource.object.dispose();
       }
     });
-    _resources = {};
+    resources = {};
   },
 
   render(scene: WorldScene, camera: WorldCamera) {
-    // todo refactor to _renderer.render(scene, camera);
-    _renderer.threeRenderer.render(scene.threeObject, camera.threeObject as THREE.Camera);
+    renderer.render(scene, camera);
   },
 
   clearRendererState() {
-    _renderer.clearState();
+    renderer.clearState();
   },
 
   run() {
@@ -106,22 +104,22 @@ export default {
     (function tick() {
       time.update();
 
-      for (const listener of _onEarlyUpdateListeners) {
+      for (const listener of onEarlyUpdateListeners) {
         listener(time.deltaTime);
       }
 
-      if (_mainScene && _mainScene.update) {
-        _mainScene.update(time.deltaTime);
+      if (mainScene && mainScene.update) {
+        mainScene.update(time.deltaTime);
       }
 
-      for (const listener of _onLateUpdateListeners) {
+      for (const listener of onLateUpdateListeners) {
         listener(time.deltaTime);
       }
 
-      if (_mainScene && _mainCamera) {
-        self.render(_mainScene, _mainCamera);
+      if (mainScene && mainCamera) {
+        self.render(mainScene, mainCamera);
       } else {
-        _renderer.threeRenderer.clear();
+        renderer.threeRenderer.clear();
       }
 
       self.stats?.update();
@@ -131,24 +129,24 @@ export default {
   },
 
   onEarlyUpdate(callback: (deltaTime: number) => void) {
-    _onEarlyUpdateListeners.push(callback);
+    onEarlyUpdateListeners.push(callback);
   },
 
   onLateUpdate(callback: (deltaTime: number) => void) {
-    _onLateUpdateListeners.push(callback);
+    onLateUpdateListeners.push(callback);
   },
 
   setMainScene(scene: WorldScene | null) {
-    if (_mainScene) {
-      _mainScene.dispose();
+    if (mainScene) {
+      mainScene.dispose();
     }
-    _mainScene = scene;
+    mainScene = scene;
   },
 
   setMainCamera(camera: WorldCamera | null) {
-    if (_mainCamera) {
-      _mainCamera.dispose();
+    if (mainCamera) {
+      mainCamera.dispose();
     }
-    _mainCamera = camera;
+    mainCamera = camera;
   },
 };

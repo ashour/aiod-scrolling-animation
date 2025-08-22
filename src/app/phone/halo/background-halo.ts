@@ -1,4 +1,4 @@
-import worldObject from "@/engine/world/world-object";
+import { makeWorldObject } from "@/engine/world/world-object";
 import * as THREE from "three";
 import fragmentShader from "./background-halo.frag?raw";
 import vertexShader from "./background-halo.vert?raw";
@@ -29,5 +29,5 @@ export function makeBackgroundHalo(): WorldObject {
     side: THREE.DoubleSide,
   });
 
-  return worldObject(new THREE.Mesh(geometry, material), {});
+  return makeWorldObject(new THREE.Mesh(geometry, material), {});
 }

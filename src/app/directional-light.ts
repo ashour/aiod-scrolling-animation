@@ -1,6 +1,6 @@
 import type GUI from "lil-gui";
 import * as THREE from "three";
-import worldObject from "../engine/world/world-object";
+import { makeWorldObject } from "../engine/world/world-object";
 
 const COLOR = "#FFFFFF";
 const INTENSITY = 0.1;
@@ -10,7 +10,7 @@ export function makeDirectionalLight(): WorldObject {
   const light = new THREE.DirectionalLight(COLOR, INTENSITY);
   light.position.copy(POSITION);
 
-  return worldObject(light, {
+  return makeWorldObject(light, {
     gui(gui: GUI) {
       const folder = gui.addFolder("Directional Light");
 

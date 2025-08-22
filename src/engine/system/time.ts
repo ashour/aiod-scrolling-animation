@@ -1,27 +1,27 @@
 import * as THREE from "three";
 
-const _clock = new THREE.Clock();
+const clock = new THREE.Clock();
 
-let _previousElapsedTime = 0;
+let previousElapsedTime = 0;
 
 // Avoid zero delta time in case it's accessed
 // before the first time it's calculated.
-let _deltaTime = 0.016;
+let deltaTime = 0.016;
 
 export default {
   get currentTime() {
     return Date.now();
   },
   get deltaTime() {
-    return _deltaTime;
+    return deltaTime;
   },
   get elapsedTime() {
-    return _clock.getElapsedTime();
+    return clock.getElapsedTime();
   },
 
   update() {
     const elapsedTime = this.elapsedTime;
-    _deltaTime = elapsedTime - _previousElapsedTime;
-    _previousElapsedTime = elapsedTime;
+    deltaTime = elapsedTime - previousElapsedTime;
+    previousElapsedTime = elapsedTime;
   },
 };

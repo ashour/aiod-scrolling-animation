@@ -1,6 +1,6 @@
-import { perspectiveCamera } from "@/engine/rendering/camera";
+import { makePerspectiveCamera } from "@/engine/rendering/camera";
 import { browserWindow } from "@/engine/system/browser-window";
-import worldObject from "@/engine/world/world-object";
+import { makeWorldObject } from "@/engine/world/world-object";
 import * as THREE from "three";
 
 const FOV = 35;
@@ -9,7 +9,7 @@ const FAR_CLIPPING_PLANE = 100;
 const POSITION = new THREE.Vector3(0, 0, 70);
 
 export function makeMainCamera(): WorldCamera {
-  const mainCamera = perspectiveCamera({
+  const mainCamera = makePerspectiveCamera({
     fov: FOV,
     aspect: browserWindow.width / browserWindow.height,
     near: NEAR_CLIPPING_PLANE,
@@ -17,7 +17,7 @@ export function makeMainCamera(): WorldCamera {
     position: POSITION,
   });
 
-  return worldObject(mainCamera!.threeObject, {
+  return makeWorldObject(mainCamera!.threeObject, {
     setAspect(newAspect: number) {
       mainCamera!.setAspect(newAspect);
     },

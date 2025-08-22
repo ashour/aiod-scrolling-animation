@@ -1,7 +1,7 @@
-import loadCubeTexture from "./cube_texture_loader";
-import loadGLTF from "./gltf_loader";
+import { loadCubeTexture } from "./cube-texture-loader";
+import { loadGLTF } from "./gltf-loader";
 import { loadRGBE } from "./rgbe-loader";
-import loadTexture from "./texture_loader";
+import { loadTexture } from "./texture-loader";
 
 export default {
   load(assets: AssetConfig): Promise<Resource[]> {

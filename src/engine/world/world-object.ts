@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import engine from "../engine";
 
-export default function worldObject<T = {}>(
+export function makeWorldObject<T = {}>(
   threeObject: THREE.Object3D,
   options: WorldObjectOptions<T>,
 ): WorldObject<T> {

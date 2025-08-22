@@ -8,7 +8,7 @@ type PerspectiveCameraParams = {
   position: THREE.Vector3 | null;
 };
 
-export function perspectiveCamera(args: PerspectiveCameraParams): WorldCamera {
+export function makePerspectiveCamera(args: PerspectiveCameraParams): WorldCamera {
   const threeObject = new THREE.PerspectiveCamera(args.fov, args.aspect, args.near, args.far);
 
   if (args.position) {
