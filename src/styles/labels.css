@@ -1,0 +1,54 @@
+* {
+  --label-scale: 0;
+}
+
+.part-label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: scale(var(--label-scale));
+  padding: 0.5rem;
+  background-color: var(--color-grey-300);
+  border: 0.5px solid var(--color-blue);
+  border-radius: 4px;
+}
+
+.part-label__header {
+  font-size: 1.1428571429rem;
+  line-height: 1.1;
+  margin-top: -0.1rem;
+  margin-bottom: 0.5rem;
+}
+.part-label__body {
+  font-size: 0.625rem;
+}
+.part-label__body > * {
+  margin-bottom: 0.125rem;
+}
+.part-label__body > *:last-child {
+  margin-bottom: 0;
+}
+.part-label__pill {
+  padding: 1px 2px;
+  border-radius: 5%;
+  font-weight: 500;
+  text-transform: uppercase;
+  color: var(--color-grey-300);
+  background-color: var(--color-blue);
+}
+
+.part-label::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateY(-100%);
+  width: 0.5px;
+  height: 10px;
+  background-color: var(--color-blue);
+}
+
+#section-label-1-0::before {
+  left: 25%;
+  height: 40px;
+}
