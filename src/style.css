@@ -170,16 +170,14 @@ main {
 }
 
 * {
-  --label0-translateX: 0px;
-  --label0-translateY: 0px;
-  --label0-scale: 0;
+  --label-scale: 0;
 }
 
 .part-label {
   position: absolute;
   top: 0;
   left: 0;
-  transform: translate(var(--label0-translateX), var(--label0-translateY)) scale(var(--label0-scale));
+  transform: scale(var(--label-scale));
   padding: 0.5rem;
   background-color: #262C2A;
   border: 0.5px solid #A7C4CD;
@@ -221,7 +219,7 @@ main {
   background-color: #A7C4CD;
 }
 
-#label-1-0::before {
+#section-label-1-0::before {
   left: 25%;
   height: 40px;
 }

@@ -1,0 +1,70 @@
+import type { makePhone } from "@/app/phone/phone";
+import gsap from "gsap";
+
+type MakeSectionAnimationParams = {
+  id: string;
+  start: string;
+  end: string;
+  hasLabels: boolean;
+  phone: ReturnType<typeof makePhone>;
+  showMarkers?: boolean;
+};
+
+export function makeSectionAnimation({
+  id,
+  start,
+  end,
+  hasLabels,
+  phone,
+  showMarkers = false,
+}: MakeSectionAnimationParams) {
+  const timeline = gsap.timeline({
+    scrollTrigger: {
+      id,
+      trigger: `#${id}`,
+      start,
+      end,
+      scrub: 0.13,
+      snap: {
+        snapTo: 1,
+        ease: "none",
+      },
+      markers: showMarkers,
+      onEnter: (_self) => phone.stopFloating(),
+      onEnterBack: (_self) => phone.stopFloating(),
+      onLeave: (_self) => phone.startFloating(),
+      onLeaveBack: (_self) => phone.startFloating(),
+    },
+  });
+
+  const nextSectionIndex = parseInt(id.replace("section-", ""));
+  const currentSectionHeaderId = `#section-${nextSectionIndex - 1}-header`;
+
+  const phoneAnimationProgress = { value: 0 };
+
+  timeline
+    .addLabel("currentHeaderDown")
+    .to(currentSectionHeaderId, { y: "100vh", duration: 2, ease: "power1.out" })
+    .addLabel("phone")
+    .to(phoneAnimationProgress, {
+      value: 1,
+      duration: 6,
+      ease: "none",
+      onUpdate: () => {
+        phone.setAnimationTime(0, phoneAnimationProgress.value);
+      },
+    });
+
+  if (hasLabels) {
+    const nextSectionLabelSelector = `#section-${nextSectionIndex}-labels .part-label`;
+    timeline
+      .addLabel("labels")
+      .to(nextSectionLabelSelector, { "--label-scale": 1, duration: 2, ease: "power1.out" });
+  }
+
+  const nextSectionHeaderId = `#section-${nextSectionIndex}-header`;
+
+  timeline
+    .addLabel("nextHeaderUp")
+    .to(nextSectionHeaderId, { y: 0, duration: 2, ease: "power1.out" }, "<");
+}

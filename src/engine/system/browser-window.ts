@@ -1,53 +1,53 @@
-const _nativeWindow = window;
+const nativeWindow = window;
 
-const _size = {
-  width: _nativeWindow.innerWidth,
-  height: _nativeWindow.innerHeight,
+const size = {
+  width: nativeWindow.innerWidth,
+  height: nativeWindow.innerHeight,
 };
 
-const _onWindowResizeListeners: Array<OnWindowResizeListener> = [];
+const onWindowResizeListeners: Array<OnWindowResizeListener> = [];
 
-_nativeWindow.addEventListener("resize", () => {
-  _size.width = _nativeWindow.innerWidth;
-  _size.height = _nativeWindow.innerHeight;
+nativeWindow.addEventListener("resize", () => {
+  size.width = nativeWindow.innerWidth;
+  size.height = nativeWindow.innerHeight;
 
-  for (const listener of _onWindowResizeListeners) {
-    listener(_size.width, _size.height);
+  for (const listener of onWindowResizeListeners) {
+    listener(size.width, size.height);
   }
 });
 
-const _onHashChangeListeners: Array<(hash: string) => void> = [];
+const onHashChangeListeners: Array<(hash: string) => void> = [];
 
-_nativeWindow.addEventListener("hashchange", () => {
-  for (const listener of _onHashChangeListeners) {
-    listener(_nativeWindow.location.hash);
+nativeWindow.addEventListener("hashchange", () => {
+  for (const listener of onHashChangeListeners) {
+    listener(nativeWindow.location.hash);
   }
 });
 
 export const browserWindow = {
   get width() {
-    return _size.width;
+    return size.width;
   },
   get height() {
-    return _size.height;
+    return size.height;
   },
 
   statsContainer: document.body,
-  requestAnimationFrame: _nativeWindow.requestAnimationFrame.bind(_nativeWindow),
+  requestAnimationFrame: nativeWindow.requestAnimationFrame.bind(nativeWindow),
 
   get devicePixelRatio() {
-    return _nativeWindow.devicePixelRatio;
+    return nativeWindow.devicePixelRatio;
   },
 
   get urlHash() {
-    return _nativeWindow.location.hash;
+    return nativeWindow.location.hash;
   },
 
   onResize(callback: OnWindowResizeListener) {
-    _onWindowResizeListeners.push(callback);
+    onWindowResizeListeners.push(callback);
   },
 
   onHashChange(callback: (hash: string) => void) {
-    _onHashChangeListeners.push(callback);
+    onHashChangeListeners.push(callback);
   },
 };
