@@ -10,8 +10,6 @@ const FAR_CLIPPING_PLANE = 100;
 
 const POSITION = new THREE.Vector3(0, 0, 70);
 
-const ASPECT_TWEEN_DURATION = 0.3;
-
 export function makeMainCamera(): WorldCamera {
   const mainCamera = makePerspectiveCamera({
     fov: FOV,
@@ -25,20 +23,7 @@ export function makeMainCamera(): WorldCamera {
 
   return makeWorldObject(mainCamera!.threeObject, {
     setAspect(newAspect: number) {
-      const aspectProgress = { value: (mainCamera!.threeObject as THREE.PerspectiveCamera).aspect };
-      if (aspectTween) {
-        aspectTween.kill();
-        aspectTween = null;
-      }
-      aspectTween = gsap.to(aspectProgress, {
-        value: newAspect,
-        duration: ASPECT_TWEEN_DURATION,
-        ease: "power3",
-        onUpdate: () => {
-          mainCamera!.setAspect(aspectProgress.value);
-        },
-        onComplete: () => (aspectTween = null),
-      });
+      mainCamera!.setAspect(newAspect);
     },
 
     gui(gui) {

@@ -9,6 +9,7 @@ import { makeDirectionalLight } from "./lights/directional-light";
 import { makeMainCamera } from "./main-camera";
 import { makeMainScene } from "./main-scene";
 import { makePhone } from "./phone/phone";
+import { resizeCanvas } from "./resize-canvas";
 import { makeSectionAnimations } from "./scrolling-animations/section-animations";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -22,6 +23,8 @@ export async function app(canvas: HTMLCanvasElement) {
   const mainCamera = makeMainCamera();
   mainScene.add(mainCamera);
   engine.setMainCamera(mainCamera);
+
+  engine.onEarlyUpdate(() => resizeCanvas(mainCamera));
 
   mainScene.add(makeAmbientLight());
   mainScene.add(makeDirectionalLight());

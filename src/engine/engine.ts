@@ -23,18 +23,12 @@ export default {
 
   async init(canvas: HTMLCanvasElement, assets: AssetConfig, options: EngineOptions) {
     renderer = makeRenderer(canvas, options);
-    renderer.setSize(browserWindow.width, browserWindow.height);
 
     const maxPixelRatio = options.maxPixelRatio ?? DEFAULT_MAX_PIXEL_RATIO;
     renderer.setPixelRatio(Math.min(browserWindow.devicePixelRatio, maxPixelRatio));
 
     this.onWindowResize((width: number, height: number) => {
-      renderer.setSize(width, height);
       renderer.setPixelRatio(Math.min(browserWindow.devicePixelRatio, maxPixelRatio));
-
-      if (mainCamera) {
-        mainCamera.setAspect(width / height);
-      }
     });
 
     const loadedAssets = await loader.load(assets);
