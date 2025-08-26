@@ -1,12 +1,16 @@
 import { makePerspectiveCamera } from "@/engine/rendering/camera";
 import { browserWindow } from "@/engine/system/browser-window";
 import { makeWorldObject } from "@/engine/world/world-object";
+import gsap from "gsap";
 import * as THREE from "three";
 
 const FOV = 35;
 const NEAR_CLIPPING_PLANE = 0.1;
 const FAR_CLIPPING_PLANE = 100;
+
 const POSITION = new THREE.Vector3(0, 0, 70);
+
+const ASPECT_TWEEN_DURATION = 0.3;
 
 export function makeMainCamera(): WorldCamera {
   const mainCamera = makePerspectiveCamera({
@@ -17,9 +21,24 @@ export function makeMainCamera(): WorldCamera {
     position: POSITION,
   });
 
+  let aspectTween: gsap.core.Tween | null = null;
+
   return makeWorldObject(mainCamera!.threeObject, {
     setAspect(newAspect: number) {
-      mainCamera!.setAspect(newAspect);
+      const aspectProgress = { value: (mainCamera!.threeObject as THREE.PerspectiveCamera).aspect };
+      if (aspectTween) {
+        aspectTween.kill();
+        aspectTween = null;
+      }
+      aspectTween = gsap.to(aspectProgress, {
+        value: newAspect,
+        duration: ASPECT_TWEEN_DURATION,
+        ease: "power3",
+        onUpdate: () => {
+          mainCamera!.setAspect(aspectProgress.value);
+        },
+        onComplete: () => (aspectTween = null),
+      });
     },
 
     gui(gui) {
