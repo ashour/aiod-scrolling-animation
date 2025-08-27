@@ -4,7 +4,13 @@
   left: 0;
   right: 0;
   bottom: auto;
-  height: 100svh;
+  height: 100vh;
+}
+
+@supports (height: 100svh) {
+  .webgl-container {
+    height: 100svh;
+  }
 }
 
 @media screen and (pointer: fine) {

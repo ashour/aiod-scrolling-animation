@@ -7,5 +7,5 @@
   --color-grey-200: #222a2a;
   --color-grey-300: #262c2a;
 
-  --viewport-height-extended: calc(100vh + 200px);
+  --section-scroll-height: 80vh;
 }

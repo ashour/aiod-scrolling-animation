@@ -1,5 +1,5 @@
 .section {
-  height: var(--viewport-height-extended);
+  height: var(--section-scroll-height);
 }
 
 .section-header {
