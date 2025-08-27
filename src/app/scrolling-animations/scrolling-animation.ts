@@ -5,8 +5,9 @@ type MakeSectionAnimationParams = {
   id: string;
   start: string;
   end: string;
-  hasLabels: boolean;
   phone: ReturnType<typeof makePhone>;
+  hasLabels: boolean;
+  labelPositioners: Array<() => void>;
   showMarkers?: boolean;
 };
 
@@ -14,8 +15,9 @@ export function makeSectionAnimation({
   id,
   start,
   end,
-  hasLabels,
   phone,
+  hasLabels,
+  labelPositioners,
   showMarkers = false,
 }: MakeSectionAnimationParams) {
   const timeline = gsap.timeline({
@@ -30,10 +32,19 @@ export function makeSectionAnimation({
         ease: "none",
       },
       markers: showMarkers,
-      onEnter: (_self) => phone.stopFloating(),
-      onEnterBack: (_self) => phone.stopFloating(),
+      onEnter: (_self) => {
+        phone.stopFloating();
+        labelPositioners.forEach((lp) => lp());
+      },
+      onEnterBack: (_self) => {
+        phone.stopFloating();
+        labelPositioners.forEach((lp) => lp());
+      },
       onLeave: (_self) => phone.startFloating(),
       onLeaveBack: (_self) => phone.startFloating(),
+      onRefresh: (_self) => {
+        labelPositioners.forEach((lp) => lp());
+      },
     },
   });
 

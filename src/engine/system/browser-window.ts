@@ -43,6 +43,10 @@ export const browserWindow = {
     return nativeWindow.location.hash;
   },
 
+  mediaQueryMatches(query: string): boolean {
+    return nativeWindow.matchMedia(query).matches;
+  },
+
   onResize(callback: OnWindowResizeListener) {
     onWindowResizeListeners.push(callback);
   },
