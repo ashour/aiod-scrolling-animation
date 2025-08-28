@@ -1,28 +1,29 @@
 import { makePerspectiveCamera } from "@/engine/rendering/camera";
-import { browserWindow } from "@/engine/system/browser-window";
 import { makeWorldObject } from "@/engine/world/world-object";
-import gsap from "gsap";
 import * as THREE from "three";
+import { canvasContainerSize } from "./canvas-size";
 
 const FOV = 35;
 const NEAR_CLIPPING_PLANE = 0.1;
 const FAR_CLIPPING_PLANE = 100;
-
-const POSITION = new THREE.Vector3(0, 0, 70);
+const NARROW_ZOOM = 63;
+const WIDE_ZOOM = 70;
 
 export function makeMainCamera(): WorldCamera {
+  const { width, height } = canvasContainerSize();
+  const aspect = width / height;
+
   const mainCamera = makePerspectiveCamera({
     fov: FOV,
-    aspect: browserWindow.width / browserWindow.height,
+    aspect,
     near: NEAR_CLIPPING_PLANE,
     far: FAR_CLIPPING_PLANE,
-    position: POSITION,
+    position: zoomedPositionFor(aspect),
   });
-
-  let aspectTween: gsap.core.Tween | null = null;
 
   return makeWorldObject(mainCamera!.threeObject, {
     setAspect(newAspect: number) {
+      mainCamera!.threeObject.position.copy(zoomedPositionFor(newAspect));
       mainCamera!.setAspect(newAspect);
     },
 
@@ -38,4 +39,8 @@ export function makeMainCamera(): WorldCamera {
       return folder;
     },
   });
+}
+
+function zoomedPositionFor(aspect: number): THREE.Vector3 {
+  return new THREE.Vector3(0, 0, aspect > 1 ? WIDE_ZOOM : NARROW_ZOOM);
 }

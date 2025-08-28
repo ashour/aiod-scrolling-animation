@@ -7,8 +7,7 @@ let lastWidth = -1;
 let lastHeight = -1;
 
 export function resizeCanvas(mainCamera: ReturnType<typeof makeMainCamera>) {
-  const width = Math.round(canvasContainer.offsetWidth);
-  const height = Math.round(canvasContainer.offsetHeight);
+  const { width, height } = canvasContainerSize();
 
   if (width !== lastWidth || height !== lastHeight) {
     engine.renderer.setSize(width, height, false);
@@ -19,4 +18,11 @@ export function resizeCanvas(mainCamera: ReturnType<typeof makeMainCamera>) {
     lastWidth = width;
     lastHeight = height;
   }
+}
+
+export function canvasContainerSize() {
+  return {
+    width: Math.round(canvasContainer.offsetWidth),
+    height: Math.round(canvasContainer.offsetHeight),
+  };
 }

@@ -4,12 +4,12 @@ import engine from "@/engine";
 import "@/styles/styles";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { resizeCanvas } from "./canvas-size";
 import { makeAmbientLight } from "./lights/ambient-light";
 import { makeDirectionalLight } from "./lights/directional-light";
 import { makeMainCamera } from "./main-camera";
 import { makeMainScene } from "./main-scene";
 import { makePhone } from "./phone/phone";
-import { resizeCanvas } from "./resize-canvas";
 import { makeSectionAnimations } from "./scrolling-animations/section-animations";
 
 gsap.registerPlugin(ScrollTrigger);

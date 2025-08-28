@@ -5,7 +5,7 @@ import type { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
 import { makeFloatingBehavior } from "./floating-behavior";
 import { makeBackgroundHalo } from "./halo/background-halo";
 
-const POSITION = new THREE.Vector3(-0.1, 5, 20);
+const POSITION = new THREE.Vector3(-0.1, 3, 20);
 const ROTATION = new THREE.Euler(-0.1, -0.3, -0.1);
 
 const FRAME_RANGES = {
