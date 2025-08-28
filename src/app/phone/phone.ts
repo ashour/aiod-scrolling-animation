@@ -5,7 +5,6 @@ import type { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
 import { makeFloatingBehavior } from "./floating-behavior";
 import { makeBackgroundHalo } from "./halo/background-halo";
 
-const POSITION = new THREE.Vector3(-0.1, 3, 20);
 const ROTATION = new THREE.Euler(-0.1, -0.3, -0.1);
 
 const FRAME_RANGES = {
@@ -19,11 +18,11 @@ type PhoneProps = {
   stopFloating: () => void;
 };
 
-export function makePhone(): WorldObject<PhoneProps> {
+export function makePhone(position: THREE.Vector3): WorldObject<PhoneProps> {
   const gltf = engine.resource<GLTF>("phoneModel");
   const phone = gltf.scene;
 
-  phone.position.copy(POSITION);
+  phone.position.copy(position);
   phone.rotation.copy(ROTATION);
 
   const halo = makeBackgroundHalo();
