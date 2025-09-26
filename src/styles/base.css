@@ -1,3 +1,7 @@
+html {
+  background: var(--color-grey-50);
+}
+
 body {
   font-family: var(--font-mono);
   font-weight: 300;

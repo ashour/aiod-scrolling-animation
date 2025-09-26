@@ -12,10 +12,10 @@ export function htmlElementWorldToScreenPosition(
   const halfLabelWidth = elementSize.x / 2;
   const halfLabelHeight = elementSize.y / 2;
 
-  const labelScreenPos = worldPosition.clone().project(camera);
+  const elementScreenPos = worldPosition.clone().project(camera);
 
-  const labelScreenPosX = labelScreenPos.x * halfWindowWidth + halfWindowWidth;
-  const labelScreenPosY = -labelScreenPos.y * halfWindowHeight + halfWindowHeight;
+  const elementScreenPosX = elementScreenPos.x * halfWindowWidth + halfWindowWidth;
+  const elementScreenPosY = -elementScreenPos.y * halfWindowHeight + halfWindowHeight;
 
-  return new THREE.Vector2(labelScreenPosX - halfLabelWidth, labelScreenPosY - halfLabelHeight);
+  return new THREE.Vector2(elementScreenPosX - halfLabelWidth, elementScreenPosY - halfLabelHeight);
 }

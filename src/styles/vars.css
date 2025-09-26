@@ -3,9 +3,10 @@
   --font-serif: "Merriweather", serif;
 
   --color-blue: #a7c4cd;
+  --color-grey-50: #070808;
   --color-grey-100: #0f1112;
   --color-grey-200: #222a2a;
   --color-grey-300: #262c2a;
 
-  --viewport-height-extended: calc(100vh + 200px);
+  --section-scroll-height: 80vh;
 }

@@ -4,6 +4,7 @@ import engine from "@/engine";
 import "@/styles/styles";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { resizeCanvas } from "./canvas-size";
 import { makeAmbientLight } from "./lights/ambient-light";
 import { makeDirectionalLight } from "./lights/directional-light";
 import { makeMainCamera } from "./main-camera";
@@ -22,6 +23,8 @@ export async function app(canvas: HTMLCanvasElement) {
   const mainCamera = makeMainCamera();
   mainScene.add(mainCamera);
   engine.setMainCamera(mainCamera);
+
+  engine.onEarlyUpdate(() => resizeCanvas(mainCamera));
 
   mainScene.add(makeAmbientLight());
   mainScene.add(makeDirectionalLight());

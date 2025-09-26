@@ -1,19 +1,35 @@
-.webgl {
+.webgl-container {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: auto;
+  height: 100vh;
+}
+
+@supports (height: 100svh) {
+  .webgl-container {
+    height: 100svh;
+  }
+}
+
+@media screen and (pointer: fine) {
+  .webgl-container {
+    height: auto;
+    bottom: 0;
+  }
+}
+
+.webgl {
+  position: absolute;
+  inset: 0;
   outline: none;
   z-index: -100;
 }
 
 .webgl-ui {
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
+  position: absolute;
+  inset: 0;
   pointer-events: none;
   z-index: 10;
 }

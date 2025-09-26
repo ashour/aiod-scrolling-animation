@@ -1,11 +1,14 @@
+import { LARGE_SCREEN_BREAKPOINT_PX } from "@/config/app";
 import engine from "@/engine";
+import { browserWindow } from "@/engine/system/browser-window";
 import { makeWorldObject } from "@/engine/world/world-object";
 import * as THREE from "three";
 import type { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
 import { makeFloatingBehavior } from "./floating-behavior";
 import { makeBackgroundHalo } from "./halo/background-halo";
 
-const POSITION = new THREE.Vector3(-0.1, 7, 4.3);
+const DEFAULT_POSITION = new THREE.Vector3(-0.1, 5, 20);
+const LARGE_SCREEN_POSITION = new THREE.Vector3(6, 2, 22);
 const ROTATION = new THREE.Euler(-0.1, -0.3, -0.1);
 
 const FRAME_RANGES = {
@@ -23,7 +26,11 @@ export function makePhone(): WorldObject<PhoneProps> {
   const gltf = engine.resource<GLTF>("phoneModel");
   const phone = gltf.scene;
 
-  phone.position.copy(POSITION);
+  engine.onWindowResize(() => {
+    phone.position.copy(responsivePosition());
+    phone.rotation.copy(ROTATION);
+  });
+  phone.position.copy(responsivePosition());
   phone.rotation.copy(ROTATION);
 
   const halo = makeBackgroundHalo();
@@ -31,7 +38,7 @@ export function makePhone(): WorldObject<PhoneProps> {
   halo.threeObject.position.set(0, 0, -1);
 
   const mixer = new THREE.AnimationMixer(phone);
-  const floating = makeFloatingBehavior(phone);
+  let floating = makeFloatingBehavior(phone);
 
   return makeWorldObject(phone, {
     gui(gui) {
@@ -78,4 +85,10 @@ export function makePhone(): WorldObject<PhoneProps> {
       floating.stop();
     },
   });
+}
+
+function responsivePosition() {
+  return browserWindow.mediaQueryMatches(`(min-width: ${LARGE_SCREEN_BREAKPOINT_PX}px)`)
+    ? LARGE_SCREEN_POSITION
+    : DEFAULT_POSITION;
 }

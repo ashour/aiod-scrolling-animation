@@ -15,7 +15,58 @@
     <main>
       <img src="/images/loading-spinner.svg" alt="" id="loading-spinner" />
 
-      <canvas class="webgl"></canvas>
+      <div class="webgl-container">
+        <canvas class="webgl"></canvas>
+
+        <div class="webgl-ui">
+          <div class="section-labels">
+            <div id="section-1-labels">
+              <div
+                id="section-label-1-0"
+                class="part-label"
+                data-world-position="-5.25, -8, 1.957"
+                data-world-position-lg="2, -12, 1.957"
+              >
+                <h3 class="part-label__header">speakers</h3>
+                <div class="part-label__body">
+                  <p><span class="part-label__pill">Part no.</span> 25-2850</p>
+                  <p>Stereo Quad Driver Array</p>
+                </div>
+              </div>
+
+              <div
+                id="section-label-1-1"
+                class="part-label"
+                data-world-position="5, -5, 1.957"
+                data-world-position-lg="14, -9, 1.957"
+              >
+                <h3 class="part-label__header">battery</h3>
+                <div class="part-label__body">
+                  <p><span class="part-label__pill">Part no.</span> 25-8455</p>
+                  <p>3561 mAH capacity</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-headers">
+            <div class="section-header" id="section-0-header">
+              <h2 class="section-header__header">Introducing Etophone</h2>
+              <p class="section-header__tagline">meet a phone that ❤️ you back.</p>
+            </div>
+
+            <div class="section-header" id="section-1-header">
+              <h2 class="section-header__header">Modular &amp; repairable</h2>
+              <p class="section-header__tagline">got a screwdriver? parts in stock for 10 years.</p>
+            </div>
+
+            <div class="section-header" id="section-2-header">
+              <h2 class="section-header__header">Fairly sourced</h2>
+              <p class="section-header__tagline">we actually give a damn.</p>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div class="section-scroll-controllers">
         <div class="section" id="section-0" data-no-animation></div>
@@ -26,58 +77,7 @@
           data-start="+=200 99%"
           data-end="top 20%"
         ></div>
-        <div class="section" id="section-2" data-start="+=200 80%" data-end="top 20%"></div>
-      </div>
-
-      <div class="webgl-ui">
-        <div class="section-labels">
-          <div id="section-1-labels">
-            <div
-              id="section-label-1-0"
-              class="part-label"
-              data-world-position="-7.877, -4.702, 1.957"
-            >
-              <h3 class="part-label__header">speakers</h3>
-              <div class="part-label__body">
-                <p><span class="part-label__pill">Part no.</span> 25-2850</p>
-                <p>Stereo Quad Driver Array</p>
-                <p>Dolby Atmos&reg;</p>
-                <p>Hi-Res Audio Certified</p>
-              </div>
-            </div>
-
-            <div
-              id="section-label-1-1"
-              class="part-label"
-              data-world-position="7.877, -4.702, 1.957"
-            >
-              <h3 class="part-label__header">battery</h3>
-              <div class="part-label__body">
-                <p><span class="part-label__pill">Part no.</span> 25-8455</p>
-                <p>Stereo Quad Driver Array</p>
-                <p>Dolby Atmos&reg;</p>
-                <p>Hi-Res Audio Certified</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="section-headers">
-          <div class="section-header" id="section-0-header">
-            <h2 class="section-header__header">Introducing Etophone</h2>
-            <p class="section-header__tagline">Hello world, meet a phone that ❤️ you back</p>
-          </div>
-
-          <div class="section-header" id="section-1-header">
-            <h2 class="section-header__header">Modular &amp; repairable</h2>
-            <p class="section-header__tagline">Got a screwdriver? Parts in stock for 10 years.</p>
-          </div>
-
-          <div class="section-header" id="section-2-header">
-            <h2 class="section-header__header">Fairly sourced</h2>
-            <p class="section-header__tagline">We actually give a damn</p>
-          </div>
-        </div>
+        <!-- <div class="section" id="section-2" data-start="+=200 80%" data-end="top 20%"></div> -->
       </div>
     </main>
 
