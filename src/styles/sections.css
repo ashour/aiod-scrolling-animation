@@ -4,7 +4,6 @@
 
 .section-headers {
   position: relative;
-  max-width: 800px;
   height: 100%;
   margin: 0 auto;
 }
@@ -24,14 +23,6 @@
   font-size: 1.125rem;
   font-weight: 100;
 }
-@media screen and (min-width: 800px) {
-  .section-header__header {
-    font-size: 3.5rem;
-  }
-  .section-header__tagline {
-    font-size: 2.5rem;
-  }
-}
 
 #section-0-header {
   top: 65%;
@@ -42,4 +33,36 @@
 }
 #section-2-header {
   top: 48rem;
+}
+
+@media screen and (min-width: 500px) {
+  .section-headers {
+    max-width: 80%;
+  }
+}
+@media screen and (min-width: 800px) {
+  .section-headers {
+    max-width: 800px;
+  }
+  .section-header__header {
+    font-size: 3.5rem;
+  }
+  .section-header__tagline {
+    font-size: 2.5rem;
+  }
+}
+@media screen and (min-width: 1000px) {
+  .section-header {
+    padding: 0;
+    max-width: 25rem;
+  }
+  #section-0-header {
+    top: 15%;
+  }
+  .section-header__header {
+    font-size: 3.5rem;
+  }
+  .section-header__tagline {
+    font-size: 2.5rem;
+  }
 }

@@ -11,10 +11,11 @@ const POSITION = new THREE.Vector3(0, 0, 70);
 
 const FITTING_BOX_SIZE = 7;
 const FITTING_PADDING = 1.05;
+const FITTING_BOX_POSITION = new THREE.Vector3(-0.1, 0, 20);
 const FITTING_WIDE_ASPECT_THRESHOLD = 1.6;
 const FITTING_WIDE_FILL_Y = 0.6;
 
-export function makeMainCamera(fittingBoxPosition: THREE.Vector3): WorldCamera {
+export function makeMainCamera(): WorldCamera {
   const { width, height } = canvasContainerSize();
   const aspect = width / height;
 
@@ -30,7 +31,7 @@ export function makeMainCamera(fittingBoxPosition: THREE.Vector3): WorldCamera {
     new THREE.Vector3(-FITTING_BOX_SIZE, -FITTING_BOX_SIZE, -FITTING_BOX_SIZE),
     new THREE.Vector3(FITTING_BOX_SIZE, FITTING_BOX_SIZE, FITTING_BOX_SIZE),
   );
-  fittingBox.translate(fittingBoxPosition);
+  fittingBox.translate(FITTING_BOX_POSITION);
   fitCameraToBox(mainCamera.threeObject as THREE.PerspectiveCamera, fittingBox, {
     prefer: aspect > FITTING_WIDE_ASPECT_THRESHOLD ? "width" : "contain",
     fillY: FITTING_WIDE_FILL_Y,
