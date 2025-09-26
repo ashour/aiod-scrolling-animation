@@ -7,7 +7,8 @@ import { makeFloatingBehavior } from "./floating-behavior";
 import { makeBackgroundHalo } from "./halo/background-halo";
 
 const DEFAULT_POSITION = new THREE.Vector3(-0.1, 5, 20);
-const LARGE_SCREEN_POSITION = new THREE.Vector3(6, 2, 25);
+const LARGE_SCREEN_POSITION = new THREE.Vector3(6, 2, 22);
+const LARGE_SCREEN_BREAKPOINT_PX = 1000;
 const ROTATION = new THREE.Euler(-0.1, -0.3, -0.1);
 
 const FRAME_RANGES = {
@@ -87,7 +88,7 @@ export function makePhone(): WorldObject<PhoneProps> {
 }
 
 function responsivePosition() {
-  return browserWindow.mediaQueryMatches("(min-width: 1000px)")
+  return browserWindow.mediaQueryMatches(`(min-width: ${LARGE_SCREEN_BREAKPOINT_PX}px)`)
     ? LARGE_SCREEN_POSITION
     : DEFAULT_POSITION;
 }

@@ -50,6 +50,7 @@
 @media screen and (min-width: 1000px) {
   .section-header {
     max-width: 25rem;
+    right: 15rem;
   }
   #section-0-header {
     top: 15%;
