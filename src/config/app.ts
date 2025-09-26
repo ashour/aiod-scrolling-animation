@@ -1,0 +1,1 @@
+export const LARGE_SCREEN_BREAKPOINT_PX = 1000;

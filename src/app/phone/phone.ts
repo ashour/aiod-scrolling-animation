@@ -1,3 +1,4 @@
+import { LARGE_SCREEN_BREAKPOINT_PX } from "@/config/app";
 import engine from "@/engine";
 import { browserWindow } from "@/engine/system/browser-window";
 import { makeWorldObject } from "@/engine/world/world-object";
@@ -8,7 +9,6 @@ import { makeBackgroundHalo } from "./halo/background-halo";
 
 const DEFAULT_POSITION = new THREE.Vector3(-0.1, 5, 20);
 const LARGE_SCREEN_POSITION = new THREE.Vector3(6, 2, 22);
-const LARGE_SCREEN_BREAKPOINT_PX = 1000;
 const ROTATION = new THREE.Euler(-0.1, -0.3, -0.1);
 
 const FRAME_RANGES = {

@@ -1,3 +1,4 @@
+import { LARGE_SCREEN_BREAKPOINT_PX } from "@/config/app";
 import { browserWindow } from "@/engine/system/browser-window";
 import { htmlElementWorldToScreenPosition } from "@/engine/system/html-element-world-to-screen-position";
 import * as THREE from "three";
@@ -33,8 +34,8 @@ function positionLabel({
 
 function labelWorldPositionFor(label: HTMLElement): THREE.Vector3 {
   let worldPositionText: string;
-  if (browserWindow.mediaQueryMatches("(min-width: 800px)")) {
-    worldPositionText = label.getAttribute("data-world-position-md")!;
+  if (browserWindow.mediaQueryMatches(`(min-width: ${LARGE_SCREEN_BREAKPOINT_PX}px)`)) {
+    worldPositionText = label.getAttribute("data-world-position-lg")!;
   } else {
     worldPositionText = label.getAttribute("data-world-position")!;
   }
