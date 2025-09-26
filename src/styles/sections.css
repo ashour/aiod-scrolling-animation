@@ -15,12 +15,13 @@
   transform: translateY(100vh);
 }
 .section-header__header {
-  font-size: 2rem;
+  font-size: clamp(2rem, 5vw, 3.5rem);
   line-height: 1;
   margin-bottom: 0.25rem;
 }
 .section-header__tagline {
   font-size: 1.125rem;
+  font-size: clamp(1.125rem, 2.5vw, 2rem);
   font-weight: 100;
 }
 
@@ -42,27 +43,18 @@
 }
 @media screen and (min-width: 800px) {
   .section-headers {
-    max-width: 800px;
-  }
-  .section-header__header {
-    font-size: 3.5rem;
-  }
-  .section-header__tagline {
-    font-size: 2.5rem;
+    padding: 0;
+    max-width: 35rem;
   }
 }
 @media screen and (min-width: 1000px) {
   .section-header {
-    padding: 0;
     max-width: 25rem;
   }
   #section-0-header {
     top: 15%;
   }
-  .section-header__header {
-    font-size: 3.5rem;
-  }
-  .section-header__tagline {
-    font-size: 2.5rem;
+  #section-1-header {
+    top: 15%;
   }
 }
