@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "build:analyze": "vite build && npm run preview",
+    "build:preview": "vite build && npm run preview",
     "preview": "vite preview"
   },
   "devDependencies": {

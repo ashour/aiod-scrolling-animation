@@ -5,4 +5,4 @@ import "./base.css";
 import "./webgl.css";
 import "./sections.css";
 import "./labels.css";
-import "./loading-spinner.css";
+import "./loading-indicator.css";
