@@ -9,7 +9,7 @@ const assets: AssetConfig = {
   },
   environmentMap: {
     type: "hdr",
-    path: "/environment-maps/bloem_field_sunrise_2k.hdr",
+    path: "/environment-maps/bloem_field_sunrise_256.hdr",
   },
 };
 
