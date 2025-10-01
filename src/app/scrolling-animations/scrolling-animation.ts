@@ -2,12 +2,7 @@ import type { makePhone } from "@/app/phone/phone";
 import { LARGE_SCREEN_BREAKPOINT_PX } from "@/config/app";
 import { browserWindow } from "@/engine/system/browser-window";
 import gsap from "gsap";
-
-type PhoneTransforms = {
-  position?: { x: number; y: number; z: number };
-  positionLg?: { x: number; y: number; z: number };
-  rotation?: { x: number; y: number; z: number };
-};
+import type { PhoneTransforms } from "./parse-phone-transform-data";
 
 type MakeSectionAnimationParams = {
   id: string;
@@ -19,37 +14,6 @@ type MakeSectionAnimationParams = {
   phoneTransforms?: PhoneTransforms;
   showMarkers?: boolean;
 };
-
-function parseTransformData(element: Element): PhoneTransforms {
-  const transforms: PhoneTransforms = {};
-
-  const position = element.getAttribute("data-phone-position");
-  if (position) {
-    const [x, y, z] = position.split(",").map(Number);
-    transforms.position = { x, y, z };
-  }
-
-  const positionLg = element.getAttribute("data-phone-position-lg");
-  if (positionLg) {
-    const [x, y, z] = positionLg.split(",").map(Number);
-    transforms.positionLg = { x, y, z };
-  }
-
-  const rotation = element.getAttribute("data-phone-rotation");
-  if (rotation) {
-    const [x, y, z] = rotation.split(",").map(Number);
-    transforms.rotation = { x, y, z };
-  }
-
-  return transforms;
-}
-
-function getResponsivePosition(transforms: PhoneTransforms) {
-  const isLargeScreen = browserWindow.mediaQueryMatches(
-    `(min-width: ${LARGE_SCREEN_BREAKPOINT_PX}px)`,
-  );
-  return isLargeScreen && transforms.positionLg ? transforms.positionLg : transforms.position;
-}
 
 export function makeSectionAnimation({
   id,
@@ -91,9 +55,8 @@ export function makeSectionAnimation({
     .to(currentSectionHeaderId, { y: "100vh", duration: 2, ease: "power1.out" })
     .addLabel("phone");
 
-  // Add phone transform animations if provided
   if (phoneTransforms) {
-    const targetPosition = getResponsivePosition(phoneTransforms);
+    const targetPosition = responsivePosition(phoneTransforms);
 
     if (targetPosition) {
       timeline.to(
@@ -124,7 +87,6 @@ export function makeSectionAnimation({
     }
   }
 
-  // Phone animation timeline
   timeline.to(
     phoneAnimationProgress,
     {
@@ -156,4 +118,9 @@ export function makeSectionAnimation({
     );
 }
 
-export { parseTransformData };
+function responsivePosition(transforms: PhoneTransforms) {
+  const isLargeScreen = browserWindow.mediaQueryMatches(
+    `(min-width: ${LARGE_SCREEN_BREAKPOINT_PX}px)`,
+  );
+  return isLargeScreen && transforms.positionLg ? transforms.positionLg : transforms.position;
+}

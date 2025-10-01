@@ -1,6 +1,7 @@
 import type { makePhone } from "../phone/phone";
+import { parseTransformData } from "./parse-phone-transform-data";
 import { makeLabelPositionerFor } from "./position-label";
-import { makeSectionAnimation, parseTransformData } from "./scrolling-animation";
+import { makeSectionAnimation } from "./scrolling-animation";
 
 export function makeSectionAnimations(phone: ReturnType<typeof makePhone>, camera: WorldCamera) {
   document.querySelectorAll(".section-scroll-controllers > .section")!.forEach((section) => {
