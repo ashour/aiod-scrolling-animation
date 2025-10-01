@@ -4,22 +4,20 @@ import { browserWindow } from "@/engine/system/browser-window";
 import { makeWorldObject } from "@/engine/world/world-object";
 import * as THREE from "three";
 import type { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
-import { makeFloatingBehavior } from "./floating-behavior";
 import { makeBackgroundHalo } from "./halo/background-halo";
 
 const DEFAULT_POSITION = new THREE.Vector3(-0.1, 5, 20);
 const LARGE_SCREEN_POSITION = new THREE.Vector3(6, 2, 22);
 const ROTATION = new THREE.Euler(-0.1, -0.3, -0.1);
 
+const TOTAL_FRAME_COUNT = 26;
 const FRAME_RANGES = {
   0: { start: 0, end: 13 },
-  1: { start: 13, end: 15 },
+  1: { start: 13, end: 26 },
 };
 
 type PhoneProps = {
   setAnimationTime: (clipIndex: number, normalizedTime: number) => void;
-  startFloating: () => void;
-  stopFloating: () => void;
 };
 
 export function makePhone(): WorldObject<PhoneProps> {
@@ -28,7 +26,8 @@ export function makePhone(): WorldObject<PhoneProps> {
 
   engine.onWindowResize(() => {
     phone.position.copy(responsivePosition());
-    phone.rotation.copy(ROTATION);
+    // todo set last rotation?
+    // phone.rotation.copy(ROTATION);
   });
   phone.position.copy(responsivePosition());
   phone.rotation.copy(ROTATION);
@@ -38,7 +37,6 @@ export function makePhone(): WorldObject<PhoneProps> {
   halo.threeObject.position.set(0, 0, -1);
 
   const mixer = new THREE.AnimationMixer(phone);
-  let floating = makeFloatingBehavior(phone);
 
   return makeWorldObject(phone, {
     gui(gui) {
@@ -65,7 +63,7 @@ export function makePhone(): WorldObject<PhoneProps> {
 
       const clip = gltf.animations[0];
       const totalDuration = clip.duration;
-      const frameDuration = totalDuration / 15;
+      const frameDuration = totalDuration / TOTAL_FRAME_COUNT;
 
       const startTime = range.start * frameDuration;
       const endTime = range.end * frameDuration;
@@ -75,14 +73,6 @@ export function makePhone(): WorldObject<PhoneProps> {
       action.play();
       action.time = animationTime;
       mixer.update(0);
-    },
-
-    startFloating() {
-      floating.start();
-    },
-
-    stopFloating() {
-      floating.stop();
     },
   });
 }
