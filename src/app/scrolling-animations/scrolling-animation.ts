@@ -29,7 +29,7 @@ export function makeSectionAnimation({
       scrub: 0.13,
       snap: {
         snapTo: 1,
-        ease: "none",
+        duration: { max: 1 },
       },
       markers: showMarkers,
       onEnter: (_self) => {
