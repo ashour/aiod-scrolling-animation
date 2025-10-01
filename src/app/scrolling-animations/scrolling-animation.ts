@@ -60,7 +60,7 @@ export function makeSectionAnimation({
     .addLabel("phone")
     .to(phoneAnimationProgress, {
       value: 1,
-      duration: 6,
+      duration: 8,
       ease: "none",
       onUpdate: () => {
         phone.setAnimationTime(currentSectionIndex, phoneAnimationProgress.value);
@@ -71,7 +71,7 @@ export function makeSectionAnimation({
     const nextSectionLabelSelector = `#section-${nextSectionIndex}-labels .part-label`;
     timeline
       .addLabel("labels")
-      .to(nextSectionLabelSelector, { "--label-scale": 1, duration: 2, ease: "power1.out" });
+      .to(nextSectionLabelSelector, { "--label-scale": 1, duration: 1, ease: "power1.out" });
   }
 
   const nextSectionHeaderId = `#section-${nextSectionIndex}-header`;
@@ -80,7 +80,7 @@ export function makeSectionAnimation({
     .addLabel("nextHeaderUp")
     .to(
       nextSectionHeaderId,
-      { y: 0, duration: 2, ease: "power1.out" },
+      { y: 0, duration: 1, ease: "power1.out" },
       hasLabels ? "<" : undefined,
     );
 }
