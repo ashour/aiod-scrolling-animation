@@ -33,15 +33,11 @@ export function makeSectionAnimation({
       },
       markers: showMarkers,
       onEnter: (_self) => {
-        phone.stopFloating();
         labelPositioners.forEach((lp) => lp());
       },
       onEnterBack: (_self) => {
-        phone.stopFloating();
         labelPositioners.forEach((lp) => lp());
       },
-      onLeave: (_self) => phone.startFloating(),
-      onLeaveBack: (_self) => phone.startFloating(),
       onRefresh: (_self) => {
         labelPositioners.forEach((lp) => lp());
       },

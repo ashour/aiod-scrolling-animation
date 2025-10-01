@@ -42,7 +42,6 @@ export async function app(canvas: HTMLCanvasElement) {
   makeSectionAnimations(phone, mainCamera);
 
   engine.run();
-  phone.startFloating();
 
   exitLoadingState();
 }
