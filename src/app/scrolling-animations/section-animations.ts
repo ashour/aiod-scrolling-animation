@@ -1,6 +1,6 @@
 import type { makePhone } from "../phone/phone";
 import { makeLabelPositionerFor } from "./position-label";
-import { makeSectionAnimation } from "./scrolling-animation";
+import { makeSectionAnimation, parseTransformData } from "./scrolling-animation";
 
 export function makeSectionAnimations(phone: ReturnType<typeof makePhone>, camera: WorldCamera) {
   document.querySelectorAll(".section-scroll-controllers > .section")!.forEach((section) => {
@@ -9,6 +9,7 @@ export function makeSectionAnimations(phone: ReturnType<typeof makePhone>, camer
     }
 
     const hasLabels = section.hasAttribute("data-has-labels");
+    const phoneTransforms = parseTransformData(section);
     const labelPositioners: Array<() => void> = [];
     if (hasLabels) {
       document.querySelectorAll(`#${section.id}-labels .part-label`)!.forEach((label) => {
@@ -25,7 +26,8 @@ export function makeSectionAnimations(phone: ReturnType<typeof makePhone>, camer
       phone,
       hasLabels,
       labelPositioners,
-      showMarkers: false,
+      phoneTransforms,
+      showMarkers: true,
     });
   });
 }

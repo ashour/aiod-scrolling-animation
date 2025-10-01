@@ -74,6 +74,22 @@ export function makePhone(): WorldObject<PhoneProps> {
       action.time = animationTime;
       mixer.update(0);
     },
+
+    setPosition(x: number, y: number, z: number) {
+      phone.position.set(x, y, z);
+    },
+
+    setRotation(x: number, y: number, z: number) {
+      phone.rotation.set(x, y, z);
+    },
+
+    getPosition() {
+      return phone.position.clone();
+    },
+
+    getRotation() {
+      return phone.rotation.clone();
+    },
   });
 }
 
