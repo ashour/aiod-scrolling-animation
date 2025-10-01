@@ -1,6 +1,9 @@
 .section {
   height: var(--section-scroll-height);
 }
+#section-0 {
+  height: 0;
+}
 
 .section-headers {
   position: relative;

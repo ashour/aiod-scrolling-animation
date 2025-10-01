@@ -12,8 +12,8 @@ const LARGE_SCREEN_POSITION = new THREE.Vector3(6, 2, 22);
 const ROTATION = new THREE.Euler(-0.1, -0.3, -0.1);
 
 const FRAME_RANGES = {
-  0: { start: 0, end: 12 },
-  1: { start: 12, end: 15 },
+  0: { start: 0, end: 13 },
+  1: { start: 13, end: 15 },
 };
 
 type PhoneProps = {
