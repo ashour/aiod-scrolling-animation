@@ -29,15 +29,10 @@ export function makeSectionAnimation({
       scrub: 0.13,
       snap: {
         snapTo: 1,
+        ease: "expo",
         duration: { max: 1 },
       },
       markers: showMarkers,
-      onEnter: (_self) => {
-        labelPositioners.forEach((lp) => lp());
-      },
-      onEnterBack: (_self) => {
-        labelPositioners.forEach((lp) => lp());
-      },
       onRefresh: (_self) => {
         labelPositioners.forEach((lp) => lp());
       },
