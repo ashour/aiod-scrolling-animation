@@ -26,8 +26,6 @@ export function makePhone(): WorldObject<PhoneProps> {
 
   engine.onWindowResize(() => {
     phone.position.copy(responsivePosition());
-    // todo set last rotation?
-    // phone.rotation.copy(ROTATION);
   });
   phone.position.copy(responsivePosition());
   phone.rotation.copy(ROTATION);

@@ -25,35 +25,33 @@ export function makeSectionAnimation({
   phoneTransforms,
   showMarkers = false,
 }: MakeSectionAnimationParams) {
-  const timeline = gsap.timeline({
-    scrollTrigger: {
-      id,
-      trigger: `#${id}`,
-      start,
-      end,
-      scrub: 0.13,
-      snap: {
-        snapTo: 1,
-        ease: "expo",
-        duration: { min: 0.5, max: 0.7 },
+  const timeline = gsap
+    .timeline({
+      duration: 10,
+      scrollTrigger: {
+        id,
+        trigger: `#${id}`,
+        start,
+        end,
+        scrub: 0.25,
+        snap: {
+          snapTo: 1,
+          duration: { min: 0.5, max: 4 },
+          delay: 1,
+        },
+        markers: showMarkers,
+        onRefresh: (_self) => {
+          labelPositioners.forEach((lp) => lp());
+        },
       },
-      markers: showMarkers,
-      onRefresh: (_self) => {
-        labelPositioners.forEach((lp) => lp());
-      },
-    },
-  });
+    })
+    .addLabel("phone", 0);
 
   const nextSectionIndex = parseInt(id.replace("section-", ""));
   const currentSectionIndex = nextSectionIndex - 1;
   const currentSectionHeaderId = `#section-${currentSectionIndex}-header`;
 
   const phoneAnimationProgress = { value: 0 };
-
-  timeline
-    .addLabel("currentHeaderDown")
-    .to(currentSectionHeaderId, { y: "100vh", duration: 2, ease: "power1.out" })
-    .addLabel("phone");
 
   if (phoneTransforms) {
     const targetPosition = responsivePosition(phoneTransforms);
@@ -65,7 +63,7 @@ export function makeSectionAnimation({
           x: targetPosition.x,
           y: targetPosition.y,
           z: targetPosition.z,
-          duration: 10,
+          duration: 8,
           ease: "power1.out",
         },
         "phone",
@@ -79,7 +77,7 @@ export function makeSectionAnimation({
           x: phoneTransforms.rotation.x,
           y: phoneTransforms.rotation.y,
           z: phoneTransforms.rotation.z,
-          duration: 10,
+          duration: 8,
           ease: "power1.out",
         },
         "phone",
@@ -102,20 +100,27 @@ export function makeSectionAnimation({
 
   if (hasLabels) {
     const nextSectionLabelSelector = `#section-${nextSectionIndex}-labels .part-label`;
-    timeline
-      .addLabel("labels")
-      .to(nextSectionLabelSelector, { "--label-scale": 1, duration: 1, ease: "power1.out" });
+    timeline.addLabel("labels").to(
+      nextSectionLabelSelector,
+      {
+        "--label-scale": 1,
+        duration: 1.5,
+        delay: 8,
+        ease: "power1.out",
+      },
+      "phone",
+    );
   }
+
+  timeline
+    .addLabel("headers")
+    .to(currentSectionHeaderId, { y: "100vh", duration: 3, delay: 5, ease: "power1.out" }, "phone");
 
   const nextSectionHeaderId = `#section-${nextSectionIndex}-header`;
 
   timeline
     .addLabel("nextHeaderUp")
-    .to(
-      nextSectionHeaderId,
-      { y: 0, duration: 1, ease: "power1.out" },
-      hasLabels ? "<" : undefined,
-    );
+    .to(nextSectionHeaderId, { y: 0, duration: 2, ease: "power1.out" }, "headers");
 }
 
 function responsivePosition(transforms: PhoneTransforms) {
