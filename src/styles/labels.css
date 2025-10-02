@@ -55,27 +55,43 @@
 
 #section-label-1-0::before {
   left: 25%;
-  height: 50px;
+  height: 40px;
 }
 #section-label-1-1::before {
   left: 70%;
-  height: 40px;
+  height: 20px;
 }
 #section-label-2-0::before {
   left: 20%;
-  height: 50px;
+  height: 30px;
 }
 #section-label-2-1::before {
   left: 80%;
   height: 30px;
 }
 #section-label-2-2::before {
-  left: 28%;
-  height: 30px;
+  left: 25%;
+  height: 15px;
 }
 
+@media screen and (min-width: 800px) {
+  #section-label-1-1::before {
+    left: 70%;
+    height: 20px;
+  }
+}
 @media screen and (min-width: 1000px) {
   .part-label {
     min-width: 150px;
+  }
+
+  #section-label-2-0::before {
+    left: 45%;
+    height: 30px;
+  }
+
+  #section-label-2-2::before {
+    left: 35%;
+    height: 20px;
   }
 }

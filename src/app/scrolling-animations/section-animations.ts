@@ -33,7 +33,7 @@ export function makeSectionAnimations(phone: ReturnType<typeof makePhone>, camer
       nextSectionHasLabels,
       labelPositioners,
       phoneTransforms,
-      showMarkers: true,
+      showMarkers: false,
     });
   });
 }
