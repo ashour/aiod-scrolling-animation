@@ -28,6 +28,11 @@
 .part-label__body > *:last-child {
   margin-bottom: 0;
 }
+
+.part-label--lg-font .part-label__body {
+  font-size: 0.75rem;
+}
+
 .part-label__pill {
   padding: 1px 2px;
   border-radius: 5%;
@@ -55,6 +60,18 @@
 #section-label-1-1::before {
   left: 70%;
   height: 40px;
+}
+#section-label-2-0::before {
+  left: 20%;
+  height: 50px;
+}
+#section-label-2-1::before {
+  left: 80%;
+  height: 30px;
+}
+#section-label-2-2::before {
+  left: 28%;
+  height: 30px;
 }
 
 @media screen and (min-width: 1000px) {

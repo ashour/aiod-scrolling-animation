@@ -9,7 +9,8 @@ type MakeSectionAnimationParams = {
   start: string;
   end: string;
   phone: ReturnType<typeof makePhone>;
-  hasLabels: boolean;
+  currentSectionHasLabels: boolean;
+  nextSectionHasLabels: boolean;
   labelPositioners: Array<() => void>;
   phoneTransforms?: PhoneTransforms;
   showMarkers?: boolean;
@@ -20,7 +21,8 @@ export function makeSectionAnimation({
   start,
   end,
   phone,
-  hasLabels,
+  currentSectionHasLabels,
+  nextSectionHasLabels,
   labelPositioners,
   phoneTransforms,
   showMarkers = false,
@@ -93,7 +95,7 @@ export function makeSectionAnimation({
     "phone",
   );
 
-  if (hasLabels) {
+  if (nextSectionHasLabels) {
     const nextSectionLabelSelector = `#section-${nextSectionIndex}-labels .part-label`;
     timeline.addLabel("labels").to(
       nextSectionLabelSelector,
@@ -101,6 +103,19 @@ export function makeSectionAnimation({
         "--label-scale": 1,
         duration: 1.5,
         delay: 8,
+        ease: "power1.out",
+      },
+      "phone",
+    );
+  }
+  if (currentSectionHasLabels) {
+    const currentSectionLabelSelector = `#section-${currentSectionIndex}-labels .part-label`;
+    timeline.to(
+      currentSectionLabelSelector,
+      {
+        "--label-scale": 0,
+        duration: 2,
+        delay: 2,
         ease: "power1.out",
       },
       "phone",
