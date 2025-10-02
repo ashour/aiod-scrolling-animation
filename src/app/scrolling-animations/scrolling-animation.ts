@@ -34,11 +34,6 @@ export function makeSectionAnimation({
         start,
         end,
         scrub: 0.25,
-        snap: {
-          snapTo: 1,
-          duration: { min: 0.5, max: 4 },
-          delay: 1,
-        },
         markers: showMarkers,
         onRefresh: (_self) => {
           labelPositioners.forEach((lp) => lp());
@@ -120,7 +115,7 @@ export function makeSectionAnimation({
 
   timeline
     .addLabel("nextHeaderUp")
-    .to(nextSectionHeaderId, { y: 0, duration: 2, ease: "power1.out" }, "headers");
+    .to(nextSectionHeaderId, { y: 0, duration: 2, delay: 8, ease: "power1.out" }, "phone");
 }
 
 function responsivePosition(transforms: PhoneTransforms) {
