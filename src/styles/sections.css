@@ -39,6 +39,18 @@
   top: 80%;
 }
 
+.section-header__scroll-indicator {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.section-header__scroll-indicator p {
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
 @media screen and (min-width: 500px) {
   .section-headers {
     max-width: 80%;

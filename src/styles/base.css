@@ -1,5 +1,7 @@
 html {
-  background: var(--color-grey-50);
+  background: var(--color-grey-200);
+  background: linear-gradient(to bottom, var(--color-grey-100) 0vh, var(--color-grey-200) 100vh);
+  background-attachment: fixed;
 }
 
 body {
@@ -7,9 +9,6 @@ body {
   font-weight: 300;
   font-style: normal;
   color: var(--color-blue);
-  background: var(--color-grey-200);
-  background: linear-gradient(to bottom, var(--color-grey-100) 0vh, var(--color-grey-200) 100vh);
-  background-attachment: fixed;
 }
 
 h1,
