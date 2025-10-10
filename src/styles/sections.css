@@ -1,6 +1,9 @@
 .section {
   height: var(--section-scroll-height);
 }
+#section-0 {
+  height: 0;
+}
 
 .section-headers {
   position: relative;
@@ -33,7 +36,7 @@
   top: 80%;
 }
 #section-2-header {
-  top: 48rem;
+  top: 80%;
 }
 
 @media screen and (min-width: 500px) {
@@ -56,6 +59,9 @@
     top: 20%;
   }
   #section-1-header {
+    top: 20%;
+  }
+  #section-2-header {
     top: 20%;
   }
 }
