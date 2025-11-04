@@ -1,4 +1,6 @@
-# Three.js Journey
+# Scrolling Animation Demo
+
+Built with Three.js, GSAP, Blender, and Affinity Designer.
 
 ## Setup
 
@@ -17,3 +19,8 @@ npm run build
 ```
 
 To see debug UI, add `#debug` to your URL e.g. `http://localhost:5173#debug`
+
+## Let's work together
+
+If you want an animation like this one for your site, or other web 3D / creative work, you can
+[hire me on upwork](https://www.upwork.com/freelancers/~01bff3a6e3e0194d61).
